@@ -16,7 +16,17 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: abcdf77a17f785745a564d2cfdcd3e0d
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: effb1a3d8656b4a42974168147f92a48
+    m_Address: Assets/Prefabs/Enemy/Zombie.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 84f164b695186c04183b9cddccf73806
+    m_Address: Assets/Prefabs/Local Player.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: add0d8903e53cd244beb4d7c0e4a2833, type: 2}
   m_SchemaSet:

@@ -8,7 +8,7 @@ public class EnemyBase : MonoBehaviour
 {
     [SerializeField] private Transform target;
     [SerializeField] private float updateSpeed = 0.1f;
-    [SerializeField] private float rangeAttack = 2.0f;
+    [SerializeField] private float rangeAttack = 2.5f;
     [SerializeField] private float atkCooldown = 2.0f;
 
     private Animator animator;

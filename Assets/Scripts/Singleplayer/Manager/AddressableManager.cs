@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class AddressableManager : MonoBehaviour
+public class AddressableManager : PersistantSingleton<AddressableManager>
 {
     private readonly Dictionary<string, AsyncOperationHandle> dicAsset = new();
     private readonly Dictionary<string, int> listTypeAssetCount = new();
