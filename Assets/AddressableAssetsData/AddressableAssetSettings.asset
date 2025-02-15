@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: abcdf77a17f785745a564d2cfdcd3e0d
   m_currentHash:
     serializedVersion: 2
-    Hash: 5686c5ff8353139411f193debfb9e4bb
+    Hash: 0c9393ca8ade71301062f458f4da70af
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: 2dad93fa9d4d24b408ffa0c464ab4f45, type: 2}
   - {fileID: 11400000, guid: 1cec470ea2ca7234788d495e8b85121f, type: 2}
+  - {fileID: 11400000, guid: cfe8f12054c453545ac9735188a2b980, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -66,7 +67,7 @@ MonoBehaviour:
       - m_Id: 9dbea2c4172baba4b8dba67866cfd0c6
         m_Value: ServerData/[BuildTarget]
       - m_Id: 66114315031fdfc4186437249d20a668
-        m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+        m_Value: https://tung23062003.github.io/Survival-Shooter/Android
     m_ProfileEntryNames:
     - m_Id: b9b975a3c243e8045b2c2d44ed96e8b5
       m_Name: BuildTarget

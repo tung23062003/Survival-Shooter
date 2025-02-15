@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.SceneManagement;
 
 public class AddressableManager : PersistantSingleton<AddressableManager>
 {
@@ -112,6 +114,37 @@ public class AddressableManager : PersistantSingleton<AddressableManager>
     //    };
     //}
 
+    public void CreateScene(string sceneKey, Action<bool> onComplete = null, Action<float> onProgress = null)
+    {
+        StartCoroutine(LoadSceneAsync(sceneKey, onComplete, onProgress));
+    }
+
+    private IEnumerator LoadSceneAsync(string sceneKey, Action<bool> onComplete, Action<float> onProgress)
+    {
+        AsyncOperationHandle<SceneInstance> handle = Addressables.LoadSceneAsync(sceneKey, LoadSceneMode.Single, false);
+
+        while (!handle.IsDone)
+        {
+            float progress = handle.PercentComplete * 100;
+            onProgress?.Invoke(progress);
+            yield return null;
+        }
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            Debug.Log($"Scene '{sceneKey}' loaded successfully!");
+            handle.Result.ActivateAsync();
+            onComplete?.Invoke(true);
+        }
+        else
+        {
+            Debug.LogError($"Failed to load scene '{sceneKey}': {handle.OperationException}");
+            onComplete?.Invoke(false);
+        }
+
+        Addressables.Release(handle);
+    }
+
     public void PreloadAsset(string key, Action<bool> onComplete, Action<float> onProgress = null)
     {
         StartCoroutine(StartPreload(key, onComplete, onProgress));
@@ -142,4 +175,55 @@ public class AddressableManager : PersistantSingleton<AddressableManager>
         Addressables.Release(downloadHandle); //Release the operation handle
     }
 
+    public void StartUpdate(Action<bool> onComplete = null, Action<float> onProgress = null)
+    {
+        StartCoroutine(CheckForUpdates(onComplete, onProgress));
+    }
+
+    private IEnumerator CheckForUpdates(Action<bool> onComplete = null, Action<float> onProgress = null)
+    {
+        AsyncOperationHandle<IResourceLocator> initHandle = Addressables.InitializeAsync();
+        yield return initHandle;
+
+        AsyncOperationHandle<List<string>> checkHandle = Addressables.CheckForCatalogUpdates(false);
+        yield return checkHandle;
+        Debug.Log(checkHandle.Status);
+        if (checkHandle.Status == AsyncOperationStatus.Succeeded && checkHandle.Result.Count > 0)
+        {
+            Debug.Log("Updates available. Starting download...");
+
+            AsyncOperationHandle<List<IResourceLocator>> updateHandle = Addressables.UpdateCatalogs(checkHandle.Result, false);
+            yield return updateHandle;
+
+            if (updateHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                Debug.Log("Catalogs updated. Downloading assets...");
+
+                if (updateHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    Debug.Log("Catalogs updated successfully!");
+                }
+                else
+                {
+                    Debug.LogError("Failed to update catalogs!");
+                }
+
+                Addressables.Release(updateHandle);
+            }
+            else
+            {
+                Debug.LogError("Failed to update catalogs!");
+                onComplete?.Invoke(false);
+            }
+
+            Addressables.Release(updateHandle);
+        }
+        else
+        {
+            Debug.Log("No updates available.");
+            onComplete?.Invoke(true);
+        }
+
+        Addressables.Release(checkHandle);
+    }
 }

@@ -25,7 +25,11 @@ public class EnemyBase : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(FollowTarget());
+        if(GameManager.Instance.player != null)
+        {
+            target = GameManager.Instance.player;
+            StartCoroutine(FollowTarget());
+        }
     }
 
     private void Update()

@@ -9,8 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
-  m_Name: Default Local Group_ContentUpdateGroupSchema
+  m_Script: {fileID: 11500000, guid: 44d2dd2fee176fb4d908c70fa989a096, type: 3}
+  m_Name: LevelDataSO
   m_EditorClassIdentifier: 
-  m_Group: {fileID: 11400000, guid: 1cec470ea2ca7234788d495e8b85121f, type: 2}
-  m_StaticContent: 0
+  levels:
+  - level: 1
+    enemyQuantity: 5
+    spawnDelay: 5
+  - level: 2
+    enemyQuantity: 10
+    spawnDelay: 4
+  - level: 3
+    enemyQuantity: 15
+    spawnDelay: 3
