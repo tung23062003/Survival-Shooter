@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class SSpawner : MonoBehaviour
 {
-    [SerializeField] private Button spawnBtn;
+    [SerializeField] private Button spawnEnemBtn;
+    [SerializeField] private Button spawnPlayerBtn;
 
     //Spawn Pos
     [SerializeField] private Transform playerSpawnPos;
@@ -14,13 +15,18 @@ public class SSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spawnBtn.onClick.AddListener(() =>
+        spawnEnemBtn.onClick.AddListener(() =>
         {
-            AddressableManager.Instance.CreateAsset<GameObject>(AddressableKey.ZOMBIE, result =>
-            {
-                var enemy = ObjectPool.Instance.GetObject(result);
-                enemy.SetActive(true);
-            });
+            Vector3 pos = Vector3.zero;
+            if (enemySpawnPos.Length > 0)
+                pos = enemySpawnPos[Random.Range(0, enemySpawnPos.Length)].position;
+            AddEnemy(AddressableKey.ZOMBIE, pos, Quaternion.identity);
+        });
+
+
+        spawnPlayerBtn.onClick.AddListener(() =>
+        {
+            AddPlayer(AddressableKey.LOCAL_PLAYER, playerSpawnPos.position, Quaternion.identity);
         });
     }
 

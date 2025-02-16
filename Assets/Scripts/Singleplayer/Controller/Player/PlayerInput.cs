@@ -21,6 +21,7 @@ public class PlayerInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        floatingJoystick = FindObjectOfType<FloatingJoystick>();
 #if UNITY_EDITOR
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

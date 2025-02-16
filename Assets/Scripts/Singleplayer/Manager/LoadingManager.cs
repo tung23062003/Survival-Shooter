@@ -20,7 +20,7 @@ public class LoadingManager : Singleton<LoadingManager>
     }
     private void Start()
     {
-        AddressableManager.Instance.StartUpdate((onComplete) => { });
+        //AddressableManager.Instance.StartUpdate((onComplete) => { });
 
         
     }
