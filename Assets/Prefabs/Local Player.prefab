@@ -192,6 +192,14 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 200
   viewDownRotaionSpeed: 150
+  hp: 100
+  damage: 5
+  atkCoundown: 0.5
+  hitDistance: 100
+  aimPoint: {fileID: 5631950525817340468}
+  atkLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
   groundCheckPoint: {fileID: 6052378000373112464}
   groundLayer:
     serializedVersion: 2

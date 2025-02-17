@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -12,12 +13,14 @@ public class PlayerInput : MonoBehaviour
     PlayerCamera playerCamera;
     PlayerMovement playerMovement;
     PlayerController playerController;
+
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
         playerMovement = GetComponent<PlayerMovement>();
         playerCamera = GetComponentInChildren<PlayerCamera>();
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,8 +76,8 @@ public class PlayerInput : MonoBehaviour
             playerController.isJumping = true;
 
         //Fire
-        //if (Input.GetMouseButton(0))
-        //    isFireButtonPressed = true;
+        if (Input.GetMouseButton(0))
+            playerController.Attack();
 #elif UNITY_ANDROID || UNITY_IOS
         //Move input
         moveInputVector.x = floatingJoystick.Horizontal;

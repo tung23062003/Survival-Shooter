@@ -10,10 +10,14 @@ public class EnemyTriggerBase : MonoBehaviour
     {
         enemyBase = GetComponentInParent<EnemyBase>();
     }
-    public void test()
+    public void ResetAttack()
     {
-        Debug.Log("test");
-        enemyBase.isAttacking = false;
-        enemyBase.agent.isStopped = false;
+        Debug.Log("Attack Done");
+        enemyBase.ResetAttack();
+    }
+
+    public void AttackTrigger()
+    {
+        enemyBase.Attack();
     }
 }

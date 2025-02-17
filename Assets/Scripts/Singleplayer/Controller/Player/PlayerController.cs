@@ -11,18 +11,33 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 15.0f;
     public float viewDownRotaionSpeed = 50.0f;
 
+    [Header("Stats")]
+    [SerializeField] private float hp = 100.0f;
+    [SerializeField] private float damage = 10.0f;
+
+    [Header("Attack Info")]
+    [SerializeField] private float atkCoundown = 0.5f;
+    [SerializeField] private float hitDistance = 100.0f;
+    [SerializeField] private Transform aimPoint;
+    [SerializeField] private LayerMask atkLayer;
+
+
+    [Header("Ground Check")]
     [SerializeField] private Transform groundCheckPoint;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance = 0.05f;
 
-
+    private float currentHp;
+    private float lastTimeAtk;
     private Rigidbody rb;
+    private PlayerCamera playerCamera;
     public bool isGrounded;
     public bool isJumping;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        playerCamera = GetComponentInChildren<PlayerCamera>();
     }
 
     private void Update()
@@ -61,5 +76,56 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.DrawRay(groundCheckPoint.position, Vector3.up * -1 * groundCheckDistance);
         Gizmos.color = Color.red;
+    }
+
+
+    public void TakeDamage(float damage)
+    {
+        currentHp -= damage;
+        Debug.Log($"{gameObject.name} take {damage} damage");
+
+        if (currentHp <= 0)
+            Die();
+    }
+
+    public void Attack()
+    {
+        if (Time.time - lastTimeAtk < atkCoundown)
+            return;
+
+        //StartCoroutine(FireEffectCO());
+
+        //Runner.LagCompensation.Raycast(aimPoint.position, aimForwardVector, 100, Object.InputAuthority, out var hitInfo, collisionLayer, HitOptions.IgnoreInputAuthority);
+
+
+        var aimForwardVector = playerCamera.transform.forward;
+
+        
+
+        bool isHitOtherPlayer = false;
+
+        if(Physics.Raycast(aimPoint.position, aimForwardVector, out RaycastHit hitInfo, hitDistance, atkLayer))
+        {
+            if(hitInfo.collider.TryGetComponent(out EnemyBase enemy))
+            {
+                Debug.Log($"{transform.name} hit {hitInfo.transform.name}");
+                enemy.TakeDamage(damage);
+            }
+
+            isHitOtherPlayer = true;
+        }
+
+
+        if (isHitOtherPlayer)
+            Debug.DrawRay(aimPoint.position, aimForwardVector * hitDistance, Color.red, 1);
+        else
+            Debug.DrawRay(aimPoint.position, aimForwardVector * hitDistance, Color.green, 1);
+
+        lastTimeAtk = Time.time;
+    }
+
+    public void Die()
+    {
+        Debug.Log($"{transform.name} die");
     }
 }

@@ -67,7 +67,7 @@ public class SSpawner : MonoBehaviour
             enemy.transform.SetPositionAndRotation(position, rotation);
             enemy.transform.SetParent(parent);
 
-            var enemyBase = enemy.GetComponent<EnemyBase>();
+            //var enemyBase = enemy.GetComponent<EnemyBase>();
         });
     }
 }
