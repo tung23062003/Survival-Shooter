@@ -49,7 +49,7 @@ public class EnemyBase : MonoBehaviour, ICharacter
         health.ResetHealth();
         if (GameManager.Instance.player != null)
         {
-            target = GameManager.Instance.player;
+            target = GameManager.Instance.player.transform;
             StartCoroutine(FollowTarget());
         }
     }
@@ -106,7 +106,7 @@ public class EnemyBase : MonoBehaviour, ICharacter
         {
             if(hit.TryGetComponent(out PlayerController player))
             {
-                player.TakeDamage(damage);
+                player.TakeDamage(hitColliders[0].transform.position, damage);
                 Debug.Log($"{gameObject.name} attack {player.name} kill {damage} damage");
             }
         }

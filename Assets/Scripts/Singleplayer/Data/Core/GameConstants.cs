@@ -24,6 +24,8 @@ public static class AddressableKey
     public const string ZOMBIE = "Assets/Prefabs/Enemy/Zombie.prefab";
     public const string LOCAL_PLAYER = "Assets/Prefabs/Local Player.prefab";
     public const string MAIN_SCENE_2 = "Assets/Scenes/MainScene2.unity";
+
+    public const string ZOMBIE_HIT_VFX = "Assets/Prefabs/VFX/Hit/Ice Hit .prefab";
 }
 
 public enum EntityType

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    [HideInInspector] public Transform player;
+    [HideInInspector] public GameObject player;
 
     protected override void Awake()
     {
@@ -25,6 +25,6 @@ public class GameManager : Singleton<GameManager>
     private void OnPlayerSpawn(GameObject playerPrefab)
     {
         if(playerPrefab != null)
-            player = playerPrefab.transform;
+            player = playerPrefab;
     }
 }

@@ -14,7 +14,7 @@ public class VFXManager : MonoBehaviour
             vfxDictionary[vfx.key] = vfx.effectPrefab;
         }
 
-        GameEvent.OnTakeDamage.AddListener(test);
+        GameEvent.OnTakeDamage.AddListener(OnTakeDamage);
     }
 
     private void OnDestroy()
@@ -22,26 +22,31 @@ public class VFXManager : MonoBehaviour
         GameEvent.OnTakeDamage.RemoveAllListeners();
     }
 
-    public void test(EntityInfo entityInfo, Vector3 damagePos)
+    public void OnTakeDamage(EntityInfo entityInfo, Vector3 damagePos)
     {
         if(entityInfo.entityType == EntityType.Player)
         {
-            Debug.Log("Player");
+            Debug.Log("VFX Player");
         }
         else if(entityInfo.entityType == EntityType.Monster)
         {
             switch (entityInfo.monsterType)
             {
                 case MonsterType.Zombie:
-                    PlayVFX("ZombieDamaged", damagePos, Quaternion.identity);
+                    PlayVFX_Addressable(AddressableKey.ZOMBIE_HIT_VFX, damagePos, Quaternion.identity);
                     break;
 
                 case MonsterType.MistFiend:
-                    Debug.Log("MistFiend");
+                    Debug.Log("VFX MistFiend");
+                    break;
+
+                case MonsterType.BullDemon:
+                    Debug.Log("VFX BullDemon");
                     break;
 
                 default:
-                    Debug.Log("No Monster");
+                    PlayVFX_Addressable(AddressableKey.ZOMBIE_HIT_VFX, damagePos, Quaternion.identity);
+                    Debug.Log("VFX Default");
                     break;
             }
         }
@@ -60,6 +65,17 @@ public class VFXManager : MonoBehaviour
         {
             Debug.LogWarning("VFX is not founded: " + key);
         }
+    }
+
+    public void PlayVFX_Addressable(string key, Vector3 position, Quaternion rotation, float destroyTime = 2f)
+    {
+        AddressableManager.Instance.CreateAsset<GameObject>(key, result =>
+        {
+            GameObject vfxInstance = ObjectPool.Instance.GetObject(result);
+            vfxInstance.transform.SetPositionAndRotation(position, rotation);
+            StartCoroutine(DeactiveAfterTime(vfxInstance, destroyTime));
+            vfxInstance.SetActive(true);
+        });
     }
 
     private IEnumerator DeactiveAfterTime(GameObject prefab, float time)

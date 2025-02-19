@@ -82,9 +82,11 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(Vector3 attackPos, float damage)
     {
         health.UpdateHealth(entityInfo, damage);
+        GameEvent.OnTakeDamage?.Invoke(entityInfo, attackPos);
+
         Debug.Log($"{gameObject.name} take {damage} damage");
     }
 
@@ -93,14 +95,7 @@ public class PlayerController : MonoBehaviour
         if (Time.time - lastTimeAtk < atkCoundown)
             return;
 
-        //StartCoroutine(FireEffectCO());
-
-        //Runner.LagCompensation.Raycast(aimPoint.position, aimForwardVector, 100, Object.InputAuthority, out var hitInfo, collisionLayer, HitOptions.IgnoreInputAuthority);
-
-
         var aimForwardVector = playerCamera.transform.forward;
-
-        
 
         bool isHitOtherPlayer = false;
 
