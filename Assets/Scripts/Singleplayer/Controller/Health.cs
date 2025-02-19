@@ -17,7 +17,7 @@ public class Health : MonoBehaviour
         return currentHealth;
     }
 
-    public void UpdateHealth(float damage)
+    public void UpdateHealth(EntityInfo entityInfo, float damage)
     {
         currentHealth -= damage;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);

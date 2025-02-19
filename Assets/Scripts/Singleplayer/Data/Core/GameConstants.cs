@@ -15,7 +15,8 @@ public static class GameConstants
 public static class GameEvent
 {
     public static UnityEvent<GameObject> OnPlayerSpawn = new();
-    public static UnityEvent OnEnemySpawn;
+    public static UnityEvent OnEnemySpawn = new();
+    public static UnityEvent<EntityInfo, Vector3> OnTakeDamage = new();
 }
 
 public static class AddressableKey
@@ -25,7 +26,18 @@ public static class AddressableKey
     public const string MAIN_SCENE_2 = "Assets/Scenes/MainScene2.unity";
 }
 
-public enum EnemyType
+public enum EntityType
 {
-    Zombie
+    NONE = 0,
+    Player = 1,
+    Monster = 2,
+}
+
+public enum MonsterType
+{
+    Zombie = 1,
+    MistFiend = 2,
+    StoneGolem = 3,
+    TigerDemon = 4,
+    BullDemon = 5,
 }

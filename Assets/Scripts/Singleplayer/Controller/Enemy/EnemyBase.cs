@@ -6,19 +6,21 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyBase : MonoBehaviour, ICharacter
 {
+    public EntityInfo entityInfo;
+
     [Header("Stats")]
     [SerializeField] private float updateSpeed = 0.1f;
     [SerializeField] private float rangeAttack = 2.5f;
     [SerializeField] private float atkCooldown = 2.0f;
     [SerializeField] private float damage = 5.0f;
 
-    [SerializeField] private Health health;
 
     [Header("Attack Info")]
     [SerializeField] private Transform attackPos;
     [SerializeField] private float attackRadius;
     [SerializeField] private LayerMask attackLayer;
 
+    private Health health;
     private Transform target;
     private Animator animator;
     [HideInInspector] public NavMeshAgent agent;
@@ -31,6 +33,7 @@ public class EnemyBase : MonoBehaviour, ICharacter
     {
         animator = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        health = GetComponent<Health>();
 
         health.OnDead += Die;
     }
@@ -109,9 +112,11 @@ public class EnemyBase : MonoBehaviour, ICharacter
         }
     }
 
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(Vector3 attackPos, float damage)
     {
-        health.UpdateHealth(damage);
+        health.UpdateHealth(entityInfo, damage);
+        GameEvent.OnTakeDamage?.Invoke(entityInfo, attackPos);
+
         Debug.Log($"{gameObject.name} take {damage} damage");
     }
 

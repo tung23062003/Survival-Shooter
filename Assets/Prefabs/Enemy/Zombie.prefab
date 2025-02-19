@@ -1768,16 +1768,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c97b7a0673fdc3a499b471a51d59a7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityInfo:
+    name: Zombie
+    entityType: 2
+    monsterType: 1
   updateSpeed: 0.1
   rangeAttack: 2.5
   atkCooldown: 2
   damage: 5
-  health: {fileID: 1321609894694799295}
   attackPos: {fileID: 5764317787669846077}
   attackRadius: 0.76
   attackLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 247
   agent: {fileID: 0}
   isAttacking: 0
 --- !u!114 &1321609894694799295
@@ -2483,16 +2486,6 @@ PrefabInstance:
     - target: {fileID: 4641805134771266110, guid: 1d75d4435555d614dbc01daf745cdbbb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4641805135545642133, guid: 1d75d4435555d614dbc01daf745cdbbb,
-        type: 3}
-      propertyPath: m_Maskable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4641805135545642134, guid: 1d75d4435555d614dbc01daf745cdbbb,
-        type: 3}
-      propertyPath: m_CullTransparentMesh
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public EntityInfo entityInfo;
     [Header("Character Controller Settings")]
     public float jumpForce = 8.0f;
     public float acceleration = 10.0f;
@@ -12,7 +13,6 @@ public class PlayerController : MonoBehaviour
     public float viewDownRotaionSpeed = 50.0f;
 
     [Header("Stats")]
-    [SerializeField] private float hp = 100.0f;
     [SerializeField] private float damage = 10.0f;
 
     [Header("Attack Info")]
@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance = 0.05f;
 
-    private float currentHp;
+    private Health health;
     private float lastTimeAtk;
     private Rigidbody rb;
     private PlayerCamera playerCamera;
@@ -38,6 +38,9 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerCamera = GetComponentInChildren<PlayerCamera>();
+        health = GetComponent<Health>();
+
+        health.ResetHealth();
     }
 
     private void Update()
@@ -81,11 +84,8 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        currentHp -= damage;
+        health.UpdateHealth(entityInfo, damage);
         Debug.Log($"{gameObject.name} take {damage} damage");
-
-        if (currentHp <= 0)
-            Die();
     }
 
     public void Attack()
@@ -108,8 +108,7 @@ public class PlayerController : MonoBehaviour
         {
             if(hitInfo.collider.TryGetComponent(out EnemyBase enemy))
             {
-                Debug.Log($"{transform.name} hit {hitInfo.transform.name}");
-                enemy.TakeDamage(damage);
+                enemy.TakeDamage(hitInfo.point, damage);
             }
 
             isHitOtherPlayer = true;
