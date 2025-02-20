@@ -124,6 +124,7 @@ public class EnemyBase : MonoBehaviour, ICharacter
     public virtual void Die()
     {
         gameObject.SetActive(false);
+        GameEvent.OnKillEnemy?.Invoke();
         Debug.Log($"{gameObject.name} die");
     }
 

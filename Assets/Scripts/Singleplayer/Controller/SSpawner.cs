@@ -47,7 +47,7 @@ public class SSpawner : MonoBehaviour
         }
     }
 
-    private void AddPlayer(string key, Vector3 position, Quaternion rotation, Transform parent = null)
+    public void AddPlayer(string key, Vector3 position, Quaternion rotation, Transform parent = null)
     {
         AddressableManager.Instance.CreateAsset<GameObject>(key, result =>
         {
@@ -58,7 +58,7 @@ public class SSpawner : MonoBehaviour
         });
     }
 
-    private void AddEnemy(string key, Vector3 position, Quaternion rotation, Transform parent = null)
+    public void AddEnemy(string key, Vector3 position, Quaternion rotation, Transform parent = null)
     {
         AddressableManager.Instance.CreateAsset<GameObject>(AddressableKey.ZOMBIE, result =>
         {
@@ -69,5 +69,24 @@ public class SSpawner : MonoBehaviour
 
             //var enemyBase = enemy.GetComponent<EnemyBase>();
         });
+    }
+
+    public void AddEnemyRandomPosition(string key, Vector3[] enemySpawnPos)
+    {
+        Vector3 pos = Vector3.zero;
+        if (enemySpawnPos.Length > 0)
+            pos = enemySpawnPos[Random.Range(0, enemySpawnPos.Length)];
+        AddEnemy(key, pos, Quaternion.identity);
+    }
+
+    public IEnumerator SpawnEnemies(LevelInfo levelInfo)
+    {
+        int spawnedEnemies = 0;
+        while (spawnedEnemies < levelInfo.enemyQuantity)
+        {
+            AddEnemyRandomPosition(AddressableKey.ZOMBIE, levelInfo.enemySpawnPosition);
+            spawnedEnemies++;
+            yield return new WaitForSeconds(levelInfo.spawnDelay);
+        }
     }
 }

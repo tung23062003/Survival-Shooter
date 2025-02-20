@@ -13,7 +13,7 @@ public class AddressableManager : PersistantSingleton<AddressableManager>
     private readonly Dictionary<string, AsyncOperationHandle> dicAsset = new();
     private readonly Dictionary<string, int> listTypeAssetCount = new();
 
-    public void CreateAsset<T>(string key, Action<T> onComplete, Action onFailed = null)
+    public void CreateAsset<T>(string key, Action<T> onComplete, Action onFailed = null, Action<float> onProgress = null)
     {
         if (dicAsset.ContainsKey(key))
         {
@@ -21,15 +21,22 @@ public class AddressableManager : PersistantSingleton<AddressableManager>
         }
         else
         {
-            StartCoroutine(LoadAsset(key, onComplete, onFailed));
+            StartCoroutine(LoadAsset(key, onComplete, onFailed, onProgress));
         }
     }
 
-    private IEnumerator LoadAsset<T>(string key, Action<T> onComplete, Action onFailed = null, string groupList = null, Action onFinish = null)
+    private IEnumerator LoadAsset<T>(string key, Action<T> onComplete, Action onFailed = null, Action<float> onProgress = null, string groupList = null, Action onFinish = null)
     {
         AddToGroupList(groupList);
         var opHandle = Addressables.LoadAssetAsync<T>(key);
         yield return opHandle;
+
+        //while (!opHandle.IsDone)
+        //{
+        //    float progress = opHandle.PercentComplete * 100;
+        //    onProgress?.Invoke(progress);
+        //    yield return null;
+        //}
 
         if (opHandle.Status == AsyncOperationStatus.Succeeded)
         {
