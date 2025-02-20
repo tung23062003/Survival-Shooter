@@ -8,13 +8,25 @@ public class FireButtonHandle : MonoBehaviour
     private bool isShooting = false;
     private PlayerController player;
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        GameEvent.OnPlayerSpawn.AddListener(OnPlayerSpawn);
+    }
+
+    private void OnDestroy()
+    {
+        GameEvent.OnPlayerSpawn.RemoveAllListeners();
+    }
+
     void Start()
     {
         AddEventTrigger();
+    }
 
-        if (GameManager.Instance.player != null)
-            player = GameManager.Instance.player.GetComponent<PlayerController>();
+    private void OnPlayerSpawn(GameObject playerPrefab)
+    {
+        if (playerPrefab != null)
+            player = playerPrefab.GetComponent<PlayerController>();
     }
 
     private void AddEventTrigger()

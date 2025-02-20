@@ -14,8 +14,8 @@ public class LoadingManager : Singleton<LoadingManager>
     {
         joinBtn.onClick.AddListener(() =>
         {
-            //SceneManager.LoadSceneAsync(GameConstants.MainScene2, LoadSceneMode.Single);
-            AddressableManager.Instance.CreateScene(AddressableKey.MAIN_SCENE_2);
+            SceneManager.LoadSceneAsync(GameConstants.MainScene2, LoadSceneMode.Single);
+            //AddressableManager.Instance.CreateScene(AddressableKey.MAIN_SCENE_2);
         });
     }
     private void Start()

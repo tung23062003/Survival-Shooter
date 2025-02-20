@@ -48,9 +48,11 @@ public class PlayerInput : MonoBehaviour
                 {
                     if (touch.phase == TouchPhase.Moved)
                     {
-                        float scaleFactor = 1f / 50f;
-                        viewInputVector.x = touch.deltaPosition.x * scaleFactor;
-                        viewInputVector.y = touch.deltaPosition.y * scaleFactor * -1;
+                        float scaleFactor = 1f / 25f;
+                        Vector2 targetInput = new Vector2(touch.deltaPosition.x * scaleFactor,
+                                                          touch.deltaPosition.y * scaleFactor * -1);
+                
+                        viewInputVector = Vector2.Lerp(viewInputVector, targetInput, Time.deltaTime * 10f);
                     }
                     else
                     {
