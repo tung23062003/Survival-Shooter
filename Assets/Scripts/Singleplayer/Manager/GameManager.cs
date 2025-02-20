@@ -46,22 +46,23 @@ public class GameManager : Singleton<GameManager>
 
             LoadLevel(1);
         });
-
-        
     }
 
-    private void LoadLevel(int level)
+    private async void LoadLevel(int level)
     {
         var levelInfo = levelData.GetLevel(level);
 
-        // Show loading bar
+        //loading bar active
+        GameEvent.OnLoading?.Invoke();
 
-        spawner.AddPlayer(AddressableKey.LOCAL_PLAYER, levelInfo.playerSpawnPosition, Quaternion.identity);
+        await spawner.SpawnPlayer(levelInfo);
 
-        StartCoroutine(spawner.SpawnEnemies(levelInfo));
+        //loading bar deactive
+        GameEvent.OnLoadDone?.Invoke();
+
+        spawner.StartSpawnEnemies(levelInfo);
     }
 
-    
 
     private void OnPlayerSpawn(GameObject playerPrefab)
     {

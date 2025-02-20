@@ -19,6 +19,9 @@ public static class GameEvent
     public static UnityEvent<EntityInfo, Vector3> OnTakeDamage = new();
     public static UnityEvent OnKillEnemy = new();
     public static UnityEvent OnWinLevel = new();
+
+    public static UnityEvent OnLoading = new();
+    public static UnityEvent OnLoadDone = new();
 }
 
 public static class AddressableKey
