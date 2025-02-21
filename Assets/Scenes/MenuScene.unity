@@ -767,6 +767,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joinBtn: {fileID: 1504748422}
+  progressBar: {fileID: 0}
+  progressText: {fileID: 0}
+  loadingPanel: {fileID: 0}
 --- !u!4 &1199538462
 Transform:
   m_ObjectHideFlags: 0

@@ -1,0 +1,76 @@
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class LoadingManager : Singleton<LoadingManager>
+{
+    [SerializeField] private Button joinBtn;
+
+    [SerializeField] private Slider progressBar;
+    [SerializeField] private TextMeshProUGUI progressText;
+    [SerializeField] private GameObject loadingPanel;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        joinBtn.onClick.AddListener(() =>
+        {
+            SceneManager.LoadSceneAsync(GameConstants.MainScene2, LoadSceneMode.Single);
+            //AddressableManager.Instance.CreateScene(AddressableKey.MAIN_SCENE_2);
+        });
+    }
+    private void OnDestroy()
+    {
+        joinBtn.onClick.RemoveAllListeners();
+    }
+
+    private void Start()
+    {
+        //if (SceneManager.GetActiveScene().buildIndex == 0)
+        //    OpenApp();
+    }
+
+    private void OpenApp()
+    {
+        LoadScene(GameConstants.MenuScene);
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        StartCoroutine(LoadSceneAsync(sceneName));
+    }
+
+    private IEnumerator LoadSceneAsync(string sceneName)
+    {
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            //SceneManager.LoadSceneAsync(GameConstants.LoadingScene);
+            //yield return null;
+            loadingPanel.SetActive(true);
+        }
+
+
+        float fakeProgress = 0f;
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        operation.allowSceneActivation = false;
+
+        while (fakeProgress < 1f)
+        {
+            fakeProgress += Time.deltaTime * 0.3f;
+            progressBar.value = Mathf.Clamp01(fakeProgress);
+            progressText.text = (fakeProgress * 100).ToString("F0") + "%";
+
+            if (operation.progress >= 0.9f && fakeProgress >= 1f)
+            {
+                operation.allowSceneActivation = true;
+            }
+
+            yield return null;
+        }
+    }
+}

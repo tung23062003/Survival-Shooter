@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - level: 1
-    countDownTime: 0
+    countDownTime: 10
     enemyQuantity: 3
     spawnDelay: 5
     playerSpawnPosition: {x: 0, y: 0, z: 0}
     enemySpawnPosition: []
   - level: 2
-    countDownTime: 0
+    countDownTime: 10
     enemyQuantity: 1
     spawnDelay: 4
-    playerSpawnPosition: {x: 0, y: 0, z: 0}
+    playerSpawnPosition: {x: 149.85, y: 0, z: 87.08}
     enemySpawnPosition: []
   - level: 3
-    countDownTime: 0
+    countDownTime: 10
     enemyQuantity: 15
     spawnDelay: 3
-    playerSpawnPosition: {x: 0, y: 0, z: 0}
+    playerSpawnPosition: {x: 213.42, y: 0, z: 94.02}
     enemySpawnPosition: []

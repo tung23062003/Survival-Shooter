@@ -21,7 +21,8 @@ public static class GameEvent
     public static UnityEvent OnWinLevel = new();
 
     public static UnityEvent OnLoading = new();
-    public static UnityEvent OnLoadDone = new();
+    public static UnityEvent<LevelInfo> OnLoadDone = new();
+    public static UnityEvent<string> OnCountdown = new();
 }
 
 public static class AddressableKey
