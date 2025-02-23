@@ -10,14 +10,24 @@ public class MenuUIHandler : MonoBehaviour
     public TMP_InputField inputField;
     public Button joinBtn;
 
+    [SerializeField] private Button playLocalBtn;
+    [SerializeField] private Button playNetworkBtn;
+
+
+    [SerializeField] private GameObject levelPanel;
+
     private void Awake()
     {
         joinBtn.onClick.AddListener(OnJointClicked);
+
+        playLocalBtn.onClick.AddListener(PlayLocalBtnHandle);
     }
 
     private void OnDestroy()
     {
         joinBtn.onClick.RemoveAllListeners();
+
+        playLocalBtn.onClick.RemoveAllListeners();
     }
 
     // Start is called before the first frame update
@@ -33,5 +43,10 @@ public class MenuUIHandler : MonoBehaviour
         PlayerPrefs.Save();
 
         SceneManager.LoadSceneAsync("MainScene");
+    }
+
+    private void PlayLocalBtnHandle()
+    {
+        levelPanel.SetActive(true);
     }
 }

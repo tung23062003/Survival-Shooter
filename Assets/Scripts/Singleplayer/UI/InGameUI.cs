@@ -12,15 +12,15 @@ public class InGameUI : MonoBehaviour
 
     private void Awake()
     {
-        GameEvent.OnLoading.AddListener(OnLoading);
-        GameEvent.OnLoadDone.AddListener(OnLoadDone);
+        GameEvent.OnSpawning.AddListener(OnLoading);
+        GameEvent.OnSpawnDone.AddListener(OnLoadDone);
         GameEvent.OnCountdown.AddListener(OnCountDown);
     }
 
     private void OnDestroy()
     {
-        GameEvent.OnLoading.RemoveAllListeners();
-        GameEvent.OnLoadDone.RemoveAllListeners();
+        GameEvent.OnSpawning.RemoveAllListeners();
+        GameEvent.OnSpawnDone.RemoveAllListeners();
         GameEvent.OnCountdown.RemoveAllListeners();
     }
 

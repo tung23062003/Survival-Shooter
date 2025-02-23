@@ -20,9 +20,10 @@ public static class GameEvent
     public static UnityEvent OnKillEnemy = new();
     public static UnityEvent OnWinLevel = new();
 
-    public static UnityEvent OnLoading = new();
-    public static UnityEvent<LevelInfo> OnLoadDone = new();
+    public static UnityEvent OnSpawning = new();
+    public static UnityEvent<LevelInfo> OnSpawnDone = new();
     public static UnityEvent<string> OnCountdown = new();
+    public static UnityEvent<LevelInfo> OnLoadDataDone = new();
 }
 
 public static class AddressableKey

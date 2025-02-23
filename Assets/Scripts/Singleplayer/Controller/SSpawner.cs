@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SSpawner : MonoBehaviour
+public class SSpawner : Singleton<SSpawner>
 {
     [SerializeField] private Button spawnEnemBtn;
     [SerializeField] private Button spawnPlayerBtn;

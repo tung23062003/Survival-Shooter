@@ -1,9 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -18,21 +15,25 @@ public class LoadingManager : Singleton<LoadingManager>
     protected override void Awake()
     {
         base.Awake();
+        if (joinBtn == null)
+            return;
         joinBtn.onClick.AddListener(() =>
         {
-            SceneManager.LoadSceneAsync(GameConstants.MainScene2, LoadSceneMode.Single);
+            LoadScene(GameConstants.MainScene2);
             //AddressableManager.Instance.CreateScene(AddressableKey.MAIN_SCENE_2);
         });
     }
     private void OnDestroy()
     {
+        if (joinBtn == null)
+            return;
         joinBtn.onClick.RemoveAllListeners();
     }
 
     private void Start()
     {
-        //if (SceneManager.GetActiveScene().buildIndex == 0)
-        //    OpenApp();
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+            OpenApp();
     }
 
     private void OpenApp()

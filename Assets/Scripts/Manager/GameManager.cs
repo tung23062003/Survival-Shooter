@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : PersistantSingleton<GameManager>
 {
     [HideInInspector] public GameObject player;
-    [SerializeField] private SSpawner spawner;
 
     private LevelDataSO levelData;
     private LevelInfo level;
@@ -41,31 +40,33 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        //loading bar active
-        GameEvent.OnLoading?.Invoke();
+        LoadData();
+    }
 
+    private void LoadData()
+    {
         AddressableManager.Instance.CreateAsset<ScriptableObject>(AddressableKey.LEVEL_DATA_SO, result =>
         {
             levelData = result as LevelDataSO;
 
             level = levelData.GetLevel(currentLevel);
 
-            LoadLevel(level.level);
+            GameEvent.OnLoadDataDone?.Invoke(level);
+            //LoadLevel(level.level);
         });
     }
 
     private async void LoadLevel(int level)
     {
+        //loading bar active
+        GameEvent.OnSpawning?.Invoke();
+
         var levelInfo = levelData.GetLevel(level);
 
-        
-
-        await spawner.SpawnPlayer(levelInfo);
+        await SSpawner.Instance.SpawnPlayer(levelInfo);
 
         //loading bar deactive
-        GameEvent.OnLoadDone?.Invoke(levelInfo);
-
-        
+        GameEvent.OnSpawnDone?.Invoke(levelInfo);
     }
 
     public void StartCountdown(LevelInfo levelInfo)
@@ -87,7 +88,7 @@ public class GameManager : Singleton<GameManager>
         }
         GameEvent.OnCountdown?.Invoke(string.Empty);
 
-        spawner.StartSpawnEnemies(levelInfo);
+        SSpawner.Instance.StartSpawnEnemies(levelInfo);
         onComplete?.Invoke();
     }
 
