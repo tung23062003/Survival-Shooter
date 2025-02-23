@@ -17,17 +17,21 @@ MonoBehaviour:
     countDownTime: 10
     enemyQuantity: 3
     spawnDelay: 5
-    playerSpawnPosition: {x: 0, y: 0, z: 0}
+    playerSpawnPosition: {x: 0, y: 2, z: 0}
     enemySpawnPosition: []
   - level: 2
     countDownTime: 10
     enemyQuantity: 1
     spawnDelay: 4
-    playerSpawnPosition: {x: 149.85, y: 0, z: 87.08}
-    enemySpawnPosition: []
+    playerSpawnPosition: {x: 149.85, y: 2, z: 87.08}
+    enemySpawnPosition:
+    - {x: 159.42, y: 2, z: 82.37}
+    - {x: 159.42, y: 2, z: 91.13}
   - level: 3
     countDownTime: 10
     enemyQuantity: 15
     spawnDelay: 3
-    playerSpawnPosition: {x: 213.42, y: 0, z: 94.02}
-    enemySpawnPosition: []
+    playerSpawnPosition: {x: 213.42, y: 2, z: 94.02}
+    enemySpawnPosition:
+    - {x: 240, y: 2, z: 67}
+    - {x: 228.4, y: 2, z: 95}

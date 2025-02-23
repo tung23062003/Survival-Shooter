@@ -15,8 +15,14 @@ public class PersistantSingleton<T> : MonoBehaviour where T : MonoBehaviour
         }
         else if (Instance.GetInstanceID() != gameObject.GetInstanceID())
         {
-            Debug.LogError("PSTSingleton is not unique!");
+            Debug.LogError($"PSTSingleton {gameObject.name} is not unique!");
             Destroy(this.gameObject);
         }
+    }
+
+    public void DestroySingleton()
+    {
+        Destroy(gameObject);
+        Instance = null;
     }
 }

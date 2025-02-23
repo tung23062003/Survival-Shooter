@@ -10,11 +10,16 @@ public class InGameUI : MonoBehaviour
     [SerializeField] private GameObject loadingUI;
     [SerializeField] private TextMeshProUGUI countdownText;
 
+    [SerializeField] private Button pauseBtn;
+    [SerializeField] private GameObject pausePanel;
+
     private void Awake()
     {
         GameEvent.OnSpawning.AddListener(OnLoading);
         GameEvent.OnSpawnDone.AddListener(OnLoadDone);
         GameEvent.OnCountdown.AddListener(OnCountDown);
+
+        pauseBtn.onClick.AddListener(PauseBtnHandle);
     }
 
     private void OnDestroy()
@@ -22,6 +27,8 @@ public class InGameUI : MonoBehaviour
         GameEvent.OnSpawning.RemoveAllListeners();
         GameEvent.OnSpawnDone.RemoveAllListeners();
         GameEvent.OnCountdown.RemoveAllListeners();
+
+        pauseBtn.onClick.RemoveAllListeners();
     }
 
     private void OnLoading()
@@ -46,5 +53,13 @@ public class InGameUI : MonoBehaviour
     private void OnCountDown(string text)
     {
         countdownText.text = text;
+    }
+
+    private void PauseBtnHandle()
+    {
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        pausePanel.SetActive(true);
     }
 }

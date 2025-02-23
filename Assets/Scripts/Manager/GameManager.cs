@@ -10,7 +10,8 @@ public class GameManager : PersistantSingleton<GameManager>
     private LevelDataSO levelData;
     private LevelInfo level;
 
-    private int currentLevel;
+    [HideInInspector] public LevelInfo levelLoading;
+    private int unlockedLevel;
     private int enemyKillQuantity = 0;
 
     protected override void Awake()
@@ -24,7 +25,7 @@ public class GameManager : PersistantSingleton<GameManager>
             PlayerPrefs.Save();
         }
 
-        currentLevel = PlayerPrefs.GetInt("Level", 1);
+        unlockedLevel = PlayerPrefs.GetInt("Level", 1);
 
         GameEvent.OnPlayerSpawn.AddListener(OnPlayerSpawn);
         GameEvent.OnKillEnemy.AddListener(CheckWinLevel);
@@ -49,19 +50,32 @@ public class GameManager : PersistantSingleton<GameManager>
         {
             levelData = result as LevelDataSO;
 
-            level = levelData.GetLevel(currentLevel);
+            level = levelData.GetLevel(unlockedLevel);
 
-            GameEvent.OnLoadDataDone?.Invoke(level);
+            GameEvent.OnLoadDataDone?.Invoke(levelData);
             //LoadLevel(level.level);
         });
     }
 
-    private async void LoadLevel(int level)
+    public async void SpawnLevelByLevel(int level)
     {
         //loading bar active
         GameEvent.OnSpawning?.Invoke();
 
         var levelInfo = levelData.GetLevel(level);
+
+        await SSpawner.Instance.SpawnPlayer(levelInfo);
+
+        //loading bar deactive
+        GameEvent.OnSpawnDone?.Invoke(levelInfo);
+    }
+
+    public async void SpawnLevel()
+    {
+        //loading bar active
+        GameEvent.OnSpawning?.Invoke();
+
+        var levelInfo = levelData.GetLevel(levelLoading.level);
 
         await SSpawner.Instance.SpawnPlayer(levelInfo);
 
@@ -103,9 +117,9 @@ public class GameManager : PersistantSingleton<GameManager>
     {
         enemyKillQuantity++;
 
-        if (enemyKillQuantity >= level.enemyQuantity)
+        if (enemyKillQuantity >= levelLoading.enemyQuantity)
         {
-            Debug.Log($"Win level {currentLevel}");
+            Debug.Log($"Win level {levelLoading.level}");
             GameEvent.OnWinLevel?.Invoke();
             SaveLevel();
         }
@@ -118,6 +132,6 @@ public class GameManager : PersistantSingleton<GameManager>
 
     private void SaveLevel()
     {
-        PlayerPrefs.SetInt("Level", currentLevel + 1);
+        PlayerPrefs.SetInt("Level", unlockedLevel + 1);
     }
 }

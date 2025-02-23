@@ -23,17 +23,25 @@ public static class GameEvent
     public static UnityEvent OnSpawning = new();
     public static UnityEvent<LevelInfo> OnSpawnDone = new();
     public static UnityEvent<string> OnCountdown = new();
-    public static UnityEvent<LevelInfo> OnLoadDataDone = new();
+    public static UnityEvent<LevelDataSO> OnLoadDataDone = new();
 }
 
 public static class AddressableKey
 {
+    //Entity
     public const string ZOMBIE = "Assets/Prefabs/Enemy/Zombie.prefab";
     public const string LOCAL_PLAYER = "Assets/Prefabs/Local Player.prefab";
+
+    //UI
+    public const string LEVEL_BTN = "Assets/Prefabs/UI/LevelBtnPrefab.prefab";
+
+    //Scene
     public const string MAIN_SCENE_2 = "Assets/Scenes/MainScene2.unity";
 
+    //SO
     public const string LEVEL_DATA_SO = "Assets/Scripts/Singleplayer/Data/Scriptable Oject/LevelDataSO.asset";
 
+    //VFX
     public const string ZOMBIE_HIT_VFX = "Assets/Prefabs/VFX/Hit/Ice Hit .prefab";
 }
 

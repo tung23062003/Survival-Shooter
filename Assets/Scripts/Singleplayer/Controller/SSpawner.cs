@@ -66,10 +66,10 @@ public class SSpawner : Singleton<SSpawner>
         AddressableManager.Instance.CreateAsset<GameObject>(AddressableKey.ZOMBIE, result =>
         {
             var enemy = ObjectPool.Instance.GetObject(result);
-            enemy.SetActive(true);
             enemy.transform.SetPositionAndRotation(position, rotation);
             enemy.transform.SetParent(parent);
 
+            enemy.SetActive(true);
             onComplete?.Invoke();
             //var enemyBase = enemy.GetComponent<EnemyBase>();
         });

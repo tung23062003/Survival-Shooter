@@ -4,30 +4,33 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class MenuUIHandler : MonoBehaviour
 {
     public TMP_InputField inputField;
-    public Button joinBtn;
 
     [SerializeField] private Button playLocalBtn;
     [SerializeField] private Button playNetworkBtn;
 
 
     [SerializeField] private GameObject levelPanel;
+    [SerializeField] private Transform levelBtnParent;
 
     private void Awake()
     {
-        joinBtn.onClick.AddListener(OnJointClicked);
+        playNetworkBtn.onClick.AddListener(OnJointClicked);
 
         playLocalBtn.onClick.AddListener(PlayLocalBtnHandle);
+        GameEvent.OnLoadDataDone.AddListener(OnLoadDataDone);
     }
 
     private void OnDestroy()
     {
-        joinBtn.onClick.RemoveAllListeners();
+        playNetworkBtn.onClick.RemoveAllListeners();
 
         playLocalBtn.onClick.RemoveAllListeners();
+        GameEvent.OnLoadDataDone.RemoveAllListeners();
     }
 
     // Start is called before the first frame update
@@ -48,5 +51,31 @@ public class MenuUIHandler : MonoBehaviour
     private void PlayLocalBtnHandle()
     {
         levelPanel.SetActive(true);
+    }
+
+    private async void OnLoadDataDone(LevelDataSO levelData)
+    {
+        for (int i = 0; i < levelData.levels.Count; i++)
+        {
+            await StartLoadData(levelData, i);
+        }
+
+    }
+
+    private async Task StartLoadData(LevelDataSO levelData, int index)
+    {
+        AddressableManager.Instance.CreateAsset<GameObject>(AddressableKey.LEVEL_BTN, result => {
+            var prefab = Instantiate(result, levelBtnParent);
+            int level = levelData.levels[index].level;
+            prefab.GetComponentInChildren<TextMeshProUGUI>().text = level.ToString();
+            prefab.GetComponent<Button>().onClick.AddListener(() => LevelButtonHandle(levelData.levels[index]));
+        });
+        await Task.Yield();
+    }
+
+    private void LevelButtonHandle(LevelInfo levelInfo)
+    {
+        GameManager.Instance.levelLoading = levelInfo;
+        LoadingManager.Instance.LoadScene(GameConstants.MainScene2);
     }
 }

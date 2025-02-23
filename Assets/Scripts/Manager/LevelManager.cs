@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    
-
     private void Awake()
     {
         
@@ -13,13 +11,11 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        
+        GameManager.Instance.SpawnLevel();
     }
 
     private void OnDestroy()
     {
         
     }
-
-    
 }

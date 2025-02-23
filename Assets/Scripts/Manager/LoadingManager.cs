@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 
 public class LoadingManager : Singleton<LoadingManager>
 {
-    [SerializeField] private Button joinBtn;
+    //[SerializeField] private Button joinBtn;
 
     [SerializeField] private Slider progressBar;
     [SerializeField] private TextMeshProUGUI progressText;
@@ -15,19 +16,19 @@ public class LoadingManager : Singleton<LoadingManager>
     protected override void Awake()
     {
         base.Awake();
-        if (joinBtn == null)
-            return;
-        joinBtn.onClick.AddListener(() =>
-        {
-            LoadScene(GameConstants.MainScene2);
-            //AddressableManager.Instance.CreateScene(AddressableKey.MAIN_SCENE_2);
-        });
+        //if (joinBtn == null)
+        //    return;
+        //joinBtn.onClick.AddListener(() =>
+        //{
+        //    LoadScene(GameConstants.MainScene2);
+        //    //AddressableManager.Instance.CreateScene(AddressableKey.MAIN_SCENE_2);
+        //});
     }
     private void OnDestroy()
     {
-        if (joinBtn == null)
-            return;
-        joinBtn.onClick.RemoveAllListeners();
+        //if (joinBtn == null)
+        //    return;
+        //joinBtn.onClick.RemoveAllListeners();
     }
 
     private void Start()
@@ -41,12 +42,12 @@ public class LoadingManager : Singleton<LoadingManager>
         LoadScene(GameConstants.MenuScene);
     }
 
-    public void LoadScene(string sceneName)
+    public void LoadScene(string sceneName, Action onComplete = null)
     {
-        StartCoroutine(LoadSceneAsync(sceneName));
+        StartCoroutine(LoadSceneAsync(sceneName, onComplete));
     }
 
-    private IEnumerator LoadSceneAsync(string sceneName)
+    private IEnumerator LoadSceneAsync(string sceneName, Action onComplete = null)
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
@@ -69,6 +70,7 @@ public class LoadingManager : Singleton<LoadingManager>
             if (operation.progress >= 0.9f && fakeProgress >= 1f)
             {
                 operation.allowSceneActivation = true;
+                onComplete?.Invoke();
             }
 
             yield return null;
