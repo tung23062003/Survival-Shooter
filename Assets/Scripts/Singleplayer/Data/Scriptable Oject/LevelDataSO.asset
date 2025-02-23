@@ -15,13 +15,13 @@ MonoBehaviour:
   levels:
   - level: 1
     countDownTime: 10
-    enemyQuantity: 3
+    enemyQuantity: 2
     spawnDelay: 5
     playerSpawnPosition: {x: 0, y: 2, z: 0}
     enemySpawnPosition: []
   - level: 2
     countDownTime: 10
-    enemyQuantity: 1
+    enemyQuantity: 3
     spawnDelay: 4
     playerSpawnPosition: {x: 149.85, y: 2, z: 87.08}
     enemySpawnPosition:
@@ -29,7 +29,7 @@ MonoBehaviour:
     - {x: 159.42, y: 2, z: 91.13}
   - level: 3
     countDownTime: 10
-    enemyQuantity: 15
+    enemyQuantity: 2
     spawnDelay: 3
     playerSpawnPosition: {x: 213.42, y: 2, z: 94.02}
     enemySpawnPosition:

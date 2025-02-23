@@ -53,7 +53,9 @@ public class SSpawner : Singleton<SSpawner>
     {
         AddressableManager.Instance.CreateAsset<GameObject>(key, result =>
         {
-            var player = Instantiate(result, position, rotation, parent);
+            var player = ObjectPool.Instance.Spawn(result);
+            player.transform.SetPositionAndRotation(position, rotation);
+            player.transform.SetParent(parent);
             player.SetActive(true);
 
             onComplete?.Invoke();
@@ -63,13 +65,13 @@ public class SSpawner : Singleton<SSpawner>
 
     public void AddEnemy(string key, Vector3 position, Quaternion rotation, Action onComplete = null, Transform parent = null)
     {
-        AddressableManager.Instance.CreateAsset<GameObject>(AddressableKey.ZOMBIE, result =>
+        AddressableManager.Instance.CreateAsset<GameObject>(key, result =>
         {
-            var enemy = ObjectPool.Instance.GetObject(result);
+            var enemy = ObjectPool.Instance.Spawn(result);
             enemy.transform.SetPositionAndRotation(position, rotation);
             enemy.transform.SetParent(parent);
-
             enemy.SetActive(true);
+
             onComplete?.Invoke();
             //var enemyBase = enemy.GetComponent<EnemyBase>();
         });

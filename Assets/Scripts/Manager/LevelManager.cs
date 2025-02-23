@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.SpawnLevel();
+        GameManager.Instance.SpawnLevel(isSpawnNextLevel: false, isRestartLevel: false);
     }
 
     private void OnDestroy()

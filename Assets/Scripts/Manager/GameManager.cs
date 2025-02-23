@@ -7,7 +7,7 @@ public class GameManager : PersistantSingleton<GameManager>
 {
     [HideInInspector] public GameObject player;
 
-    private LevelDataSO levelData;
+    [HideInInspector] public LevelDataSO levelData;
     private LevelInfo level;
 
     [HideInInspector] public LevelInfo levelLoading;
@@ -59,6 +59,7 @@ public class GameManager : PersistantSingleton<GameManager>
 
     public async void SpawnLevelByLevel(int level)
     {
+        ResetKillEnemyQuantity();
         //loading bar active
         GameEvent.OnSpawning?.Invoke();
 
@@ -70,18 +71,30 @@ public class GameManager : PersistantSingleton<GameManager>
         GameEvent.OnSpawnDone?.Invoke(levelInfo);
     }
 
-    public async void SpawnLevel()
+    public async void SpawnLevel(bool isSpawnNextLevel = false, bool isRestartLevel = false)
     {
+        ResetKillEnemyQuantity();
         //loading bar active
         GameEvent.OnSpawning?.Invoke();
 
-        var levelInfo = levelData.GetLevel(levelLoading.level);
+        int level = levelLoading.level;
+        if (isSpawnNextLevel)
+        {
+            level += 1;
+            await ObjectPool.Instance.DespawnAll();
+            levelLoading = levelData.GetLevel(level);
+        }
+        else if(isRestartLevel)
+            await ObjectPool.Instance.DespawnAll();
+
+        var levelInfo = levelData.GetLevel(level);
 
         await SSpawner.Instance.SpawnPlayer(levelInfo);
 
         //loading bar deactive
         GameEvent.OnSpawnDone?.Invoke(levelInfo);
     }
+
 
     public void StartCountdown(LevelInfo levelInfo)
     {
@@ -104,6 +117,11 @@ public class GameManager : PersistantSingleton<GameManager>
 
         SSpawner.Instance.StartSpawnEnemies(levelInfo);
         onComplete?.Invoke();
+    }
+
+    public bool IsLevelMax()
+    {
+        return levelLoading.level == levelData.levels.Count;
     }
 
 

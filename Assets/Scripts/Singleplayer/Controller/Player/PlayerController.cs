@@ -43,6 +43,11 @@ public class PlayerController : MonoBehaviour
         health.ResetHealth();
     }
 
+    private void OnEnable()
+    {
+        health.ResetHealth();
+    }
+
     private void Update()
     {
         GroundCheck();
@@ -105,6 +110,8 @@ public class PlayerController : MonoBehaviour
             {
                 enemy.TakeDamage(hitInfo.point, damage);
             }
+            else
+                VFXManager.Instance.PlayVFX_Addressable(AddressableKey.PLAYER_ATTACKBASE_VFX, hitInfo.point, Quaternion.identity);
 
             isHitOtherPlayer = true;
         }

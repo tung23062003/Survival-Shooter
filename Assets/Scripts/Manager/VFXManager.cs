@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VFXManager : MonoBehaviour
+public class VFXManager : Singleton<VFXManager>
 {
     public List<VFXData> vfxList = new();
     private Dictionary<string, GameObject> vfxDictionary = new();
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         foreach (var vfx in vfxList)
         {
             vfxDictionary[vfx.key] = vfx.effectPrefab;
@@ -33,7 +34,7 @@ public class VFXManager : MonoBehaviour
             switch (entityInfo.monsterType)
             {
                 case MonsterType.Zombie:
-                    PlayVFX_Addressable(AddressableKey.ZOMBIE_HIT_VFX, damagePos, Quaternion.identity);
+                    PlayVFX_Addressable(AddressableKey.PLAYER_ATTACKBASE_VFX, damagePos, Quaternion.identity);
                     break;
 
                 case MonsterType.MistFiend:
@@ -45,7 +46,7 @@ public class VFXManager : MonoBehaviour
                     break;
 
                 default:
-                    PlayVFX_Addressable(AddressableKey.ZOMBIE_HIT_VFX, damagePos, Quaternion.identity);
+                    PlayVFX_Addressable(AddressableKey.PLAYER_ATTACKBASE_VFX, damagePos, Quaternion.identity);
                     Debug.Log("VFX Default");
                     break;
             }
@@ -56,7 +57,7 @@ public class VFXManager : MonoBehaviour
     {
         if (vfxDictionary.TryGetValue(key, out GameObject prefab))
         {
-            GameObject vfxInstance = ObjectPool.Instance.GetObject(prefab);
+            var vfxInstance = ObjectPool.Instance.Spawn(prefab);
             vfxInstance.transform.SetPositionAndRotation(position, rotation);
             StartCoroutine(DeactiveAfterTime(vfxInstance, destroyTime));
             vfxInstance.SetActive(true);
@@ -71,7 +72,7 @@ public class VFXManager : MonoBehaviour
     {
         AddressableManager.Instance.CreateAsset<GameObject>(key, result =>
         {
-            GameObject vfxInstance = ObjectPool.Instance.GetObject(result);
+            GameObject vfxInstance = ObjectPool.Instance.Spawn(result);
             vfxInstance.transform.SetPositionAndRotation(position, rotation);
             StartCoroutine(DeactiveAfterTime(vfxInstance, destroyTime));
             vfxInstance.SetActive(true);

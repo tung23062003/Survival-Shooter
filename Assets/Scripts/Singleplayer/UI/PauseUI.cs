@@ -44,15 +44,24 @@ public class PauseUI : MonoBehaviour
 #endif
     private void ContinueBtnHandle()
     {
-        Time.timeScale = 1;
+        
+#if UNITY_EDITOR
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+#endif
+        Time.timeScale = 1;
         pausePanel.SetActive(false);
     }
 
     private void RestartBtnHandle()
     {
+#if UNITY_EDITOR
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+#endif
         Time.timeScale = 1;
+        pausePanel.SetActive(false);
+        GameManager.Instance.SpawnLevel(isSpawnNextLevel: false, isRestartLevel: true);
     }
 
     private void MenuBtnHandle()

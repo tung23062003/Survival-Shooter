@@ -42,7 +42,7 @@ public static class AddressableKey
     public const string LEVEL_DATA_SO = "Assets/Scripts/Singleplayer/Data/Scriptable Oject/LevelDataSO.asset";
 
     //VFX
-    public const string ZOMBIE_HIT_VFX = "Assets/Prefabs/VFX/Hit/Ice Hit .prefab";
+    public const string PLAYER_ATTACKBASE_VFX = "Assets/Prefabs/VFX/Hit/Ice Hit .prefab";
 }
 
 public enum EntityType

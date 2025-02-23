@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class ObjectPool : Singleton<ObjectPool>
 {
-    Dictionary<GameObject, List<GameObject>> _listOjects = new Dictionary<GameObject, List<GameObject>>();
+    Dictionary<GameObject, List<GameObject>> _listOjects = new();
 
-    public GameObject GetObject(GameObject defaultPref)
+    public GameObject Spawn(GameObject defaultPref)
     {
         if (_listOjects.ContainsKey(defaultPref))
         {
@@ -22,7 +23,7 @@ public class ObjectPool : Singleton<ObjectPool>
 
             return b;
         }
-        List<GameObject> _newList = new List<GameObject>();
+        List<GameObject> _newList = new();
 
         GameObject o = Instantiate(defaultPref, this.transform.position, Quaternion.identity);
         _newList.Add(o);
@@ -30,5 +31,18 @@ public class ObjectPool : Singleton<ObjectPool>
         _listOjects.Add(defaultPref, _newList);
 
         return o;
+    }
+
+    public async Task DespawnAll()
+    {
+        foreach (var obj in _listOjects)
+        {
+            foreach (var item in obj.Value)
+            {
+                item.SetActive(false);
+            }
+        }
+
+        await Task.Yield();
     }
 }
