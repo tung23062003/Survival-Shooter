@@ -12,7 +12,7 @@ public class GameManager : PersistantSingleton<GameManager>
 
     [HideInInspector] public LevelInfo levelLoading;
     private int unlockedLevel;
-    private int enemyKillQuantity = 0;
+    [HideInInspector] public int enemyKillQuantity = 0;
 
     protected override void Awake()
     {

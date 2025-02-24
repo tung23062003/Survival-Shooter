@@ -13,11 +13,14 @@ public class InGameUI : MonoBehaviour
     [SerializeField] private Button pauseBtn;
     [SerializeField] private GameObject pausePanel;
 
+    [SerializeField] private TextMeshProUGUI objectiveText;
+
     private void Awake()
     {
         GameEvent.OnSpawning.AddListener(OnLoading);
         GameEvent.OnSpawnDone.AddListener(OnLoadDone);
         GameEvent.OnCountdown.AddListener(OnCountDown);
+        GameEvent.OnKillEnemy.AddListener(UpdateObjectiveText);
 
         pauseBtn.onClick.AddListener(PauseBtnHandle);
     }
@@ -43,11 +46,17 @@ public class InGameUI : MonoBehaviour
 
     private IEnumerator HideAterTime(LevelInfo levelInfo, float time = 2.0f)
     {
+        UpdateObjectiveText();
         yield return new WaitForSeconds(time);
 
         loadingUI.SetActive(false);
 
         GameManager.Instance.StartCountdown(levelInfo);
+    }
+
+    private void UpdateObjectiveText()
+    {
+        objectiveText.text = $"<color=red>KILLED:</color> {GameManager.Instance.enemyKillQuantity}/{GameManager.Instance.levelLoading.enemyQuantity}";
     }
 
     private void OnCountDown(string text)
