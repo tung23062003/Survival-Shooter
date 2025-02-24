@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ICharacter
 {
     public EntityInfo entityInfo;
     [Header("Character Controller Settings")]
@@ -41,7 +41,13 @@ public class PlayerController : MonoBehaviour
         playerCamera = GetComponentInChildren<PlayerCamera>();
         health = GetComponent<Health>();
 
+        health.OnDead += Die;
+
         health.ResetHealth();
+    }
+    private void OnDestroy()
+    {
+        health.OnDead -= Die;
     }
 
     private void OnEnable()
@@ -59,8 +65,6 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.up * -1, groundCheckDistance, groundLayer);
     }
 
-    private void Spawn() { }
-
     public void Jump()
     {
         if (isGrounded)
@@ -75,18 +79,6 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = new Vector3(targetVelocity.x, rb.velocity.y, targetVelocity.z);
     }
-
-    public void Rotate(float rotationY)
-    {
-        transform.Rotate(0, rotationY * Time.deltaTime * rotationSpeed, 0);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawRay(groundCheckPoint.position, Vector3.up * -1 * groundCheckDistance);
-        Gizmos.color = Color.red;
-    }
-
 
     public void TakeDamage(Vector3 attackPos, float damage)
     {
@@ -132,6 +124,14 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        gameObject.SetActive(false);
+        GameEvent.OnLoseLevel?.Invoke();
         Debug.Log($"{transform.name} die");
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(groundCheckPoint.position, Vector3.up * -1 * groundCheckDistance);
+        Gizmos.color = Color.red;
     }
 }

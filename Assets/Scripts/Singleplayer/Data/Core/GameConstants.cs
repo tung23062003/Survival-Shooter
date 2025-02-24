@@ -17,8 +17,10 @@ public static class GameEvent
     public static UnityEvent<GameObject> OnPlayerSpawn = new();
     public static UnityEvent OnEnemySpawn = new();
     public static UnityEvent<EntityInfo, Vector3> OnTakeDamage = new();
+    //public static UnityEvent<EntityInfo> OnDead = new();
     public static UnityEvent OnKillEnemy = new();
     public static UnityEvent OnWinLevel = new();
+    public static UnityEvent OnLoseLevel = new();
 
     public static UnityEvent OnSpawning = new();
     public static UnityEvent<LevelInfo> OnSpawnDone = new();

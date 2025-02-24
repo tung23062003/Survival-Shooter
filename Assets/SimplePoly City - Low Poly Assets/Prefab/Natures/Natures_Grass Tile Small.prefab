@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 6497768029601101944}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Natures_Grass Tile Small
   m_TagString: Untagged
   m_Icon: {fileID: 0}

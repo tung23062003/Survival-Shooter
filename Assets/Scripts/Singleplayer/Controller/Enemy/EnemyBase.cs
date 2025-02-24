@@ -46,12 +46,21 @@ public class EnemyBase : MonoBehaviour, ICharacter
 
     public virtual void OnEnable()
     {
+        ResetEnemy();
         health.ResetHealth();
         if (GameManager.Instance.player != null)
         {
             target = GameManager.Instance.player.transform;
             StartCoroutine(FollowTarget());
         }
+    }
+
+    private void ResetEnemy()
+    {
+        animator.Rebind();
+        animator.Update(0f);
+        isAttacking = false;
+        lastTimeAtk = 0;
     }
 
     public virtual void Update()
@@ -74,7 +83,7 @@ public class EnemyBase : MonoBehaviour, ICharacter
 
         while (enabled)
         {
-            Move();
+            Move(target.transform.position);
 
             yield return wait;
         }
@@ -85,10 +94,10 @@ public class EnemyBase : MonoBehaviour, ICharacter
         animator.SetBool("isWalking", agent.velocity.magnitude > 0.01f && !isAttacking);
     }
 
-    public virtual void Move()
+    public virtual void Move(Vector3 direction)
     {
         if(target != null)
-            agent.SetDestination(target.transform.position);
+            agent.SetDestination(direction);
     }
 
     public virtual void StartAttack()

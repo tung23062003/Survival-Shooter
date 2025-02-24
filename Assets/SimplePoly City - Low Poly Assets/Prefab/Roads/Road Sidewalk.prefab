@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 8331460836366539711}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Road Sidewalk
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: -5910989371978439337}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Road Lane Bus Stop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
