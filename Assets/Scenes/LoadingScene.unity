@@ -1744,7 +1744,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c1262f556993e64a8075aa62e70fbdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joinBtn: {fileID: 0}
   progressBar: {fileID: 1540590425}
   progressText: {fileID: 98424353}
   loadingPanel: {fileID: 0}
@@ -1838,6 +1837,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624132220}
   m_CullTransparentMesh: 0
+--- !u!1 &1783172401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1783172403}
+  - component: {fileID: 1783172402}
+  m_Layer: 0
+  m_Name: AdsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1783172402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783172401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc714aff7f6dc374b92fb7e49673f3df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1783172403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783172401}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 204.04826, y: -36.46994, z: 126.58669}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2025698656
 GameObject:
   m_ObjectHideFlags: 0
@@ -2090,3 +2133,4 @@ SceneRoots:
   - {fileID: 689609395}
   - {fileID: 64915394}
   - {fileID: 1587908767}
+  - {fileID: 1783172403}

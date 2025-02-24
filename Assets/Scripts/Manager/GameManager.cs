@@ -139,8 +139,15 @@ public class GameManager : PersistantSingleton<GameManager>
         {
             Debug.Log($"Win level {levelLoading.level}");
             GameEvent.OnWinLevel?.Invoke();
-            SaveLevel();
+            StartCoroutine(WaitForShowAds(1.75f));
+            //SaveLevel();
         }
+    }
+
+    private IEnumerator WaitForShowAds(float time)
+    {
+        yield return new WaitForSeconds(time);
+        AdsManager.Instance.ShowInterstitialAd();
     }
 
     private void ResetKillEnemyQuantity()

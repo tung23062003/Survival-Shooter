@@ -33,9 +33,15 @@ public class MenuUIHandler : MonoBehaviour
         GameEvent.OnLoadDataDone.RemoveAllListeners();
     }
 
+    private void OnEnable()
+    {
+        AdsManager.Instance.LoadBannerAd();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        
         if (PlayerPrefs.HasKey("PlayerNickname"))
             inputField.text = PlayerPrefs.GetString("PlayerNickname");
     }
