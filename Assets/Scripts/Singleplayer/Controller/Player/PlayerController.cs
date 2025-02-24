@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float hitDistance = 100.0f;
     [SerializeField] private Transform aimPoint;
     [SerializeField] private LayerMask atkLayer;
+    [SerializeField] private ParticleSystem fireVfx;
 
 
     [Header("Ground Check")]
@@ -100,6 +101,9 @@ public class PlayerController : MonoBehaviour
         if (Time.time - lastTimeAtk < atkCoundown)
             return;
 
+        fireVfx.Play();
+        SFXManager.Instance.PlaySFX_Addressable(AddressableKey.PLAYER_FIRE_SFX, aimPoint.position, 0.2f);
+
         var aimForwardVector = playerCamera.transform.forward;
 
         bool isHitOtherPlayer = false;
@@ -111,7 +115,8 @@ public class PlayerController : MonoBehaviour
                 enemy.TakeDamage(hitInfo.point, damage);
             }
             else
-                VFXManager.Instance.PlayVFX_Addressable(AddressableKey.PLAYER_ATTACKBASE_VFX, hitInfo.point, Quaternion.identity);
+                VFXManager.Instance.PlayVFX_Addressable(AddressableKey.PLAYER_BULLET_COLLID_BASE_VFX, hitInfo.point, playerCamera.transform.rotation);
+            
 
             isHitOtherPlayer = true;
         }

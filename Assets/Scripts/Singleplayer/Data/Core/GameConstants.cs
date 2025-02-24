@@ -42,7 +42,11 @@ public static class AddressableKey
     public const string LEVEL_DATA_SO = "Assets/Scripts/Singleplayer/Data/Scriptable Oject/LevelDataSO.asset";
 
     //VFX
-    public const string PLAYER_ATTACKBASE_VFX = "Assets/Prefabs/VFX/Hit/Ice Hit .prefab";
+    public const string PLAYER_BULLET_COLLID_BASE_VFX = "Assets/Prefabs/VFX/Hit/Ice Hit .prefab";
+
+    //SFX
+    public const string PLAYER_FIRE_SFX = "Assets/Art/BigRookGames/_AssetPacks/Stylized Weapon Pack/M4 Scoped Assault Rifle/Audio/SFX_Assault Single Shot.wav";
+
 }
 
 public enum EntityType

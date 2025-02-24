@@ -205,10 +205,11 @@ MonoBehaviour:
   atkLayer:
     serializedVersion: 2
     m_Bits: 247
+  fireVfx: {fileID: 495613054970923222}
   groundCheckPoint: {fileID: 6052378000373112464}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 247
   groundCheckDistance: 0.05
   isGrounded: 0
   isJumping: 0
@@ -276,8 +277,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2219756543249033794}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.00001678193, y: -0.7033715, z: 0.00060932967, w: 0.7108222}
-  m_LocalPosition: {x: 0.361, y: -0.33, z: 1.162}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.33, y: -0.33, z: 1.162}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -289,7 +290,7 @@ Transform:
   - {fileID: 1165926505399813002}
   - {fileID: 4917221873767942281}
   m_Father: {fileID: 2862246971679938526}
-  m_LocalEulerAnglesHint: {x: 0.05, y: -89.396, z: 0.048}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!198 &495613054970923222
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -19991,7 +19992,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3991577871085107303}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!114 &7974021152832511432
 MonoBehaviour:
   m_ObjectHideFlags: 0

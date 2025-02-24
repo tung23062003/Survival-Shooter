@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - level: 1
-    countDownTime: 10
+    countDownTime: 15
     enemyQuantity: 2
     spawnDelay: 5
     playerSpawnPosition: {x: 0, y: 2, z: 0}

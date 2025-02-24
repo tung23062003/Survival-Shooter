@@ -14,6 +14,7 @@ public class InGameUI : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
 
     [SerializeField] private TextMeshProUGUI objectiveText;
+    [SerializeField] private RawImage damageScreen;
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class InGameUI : MonoBehaviour
         GameEvent.OnSpawnDone.AddListener(OnLoadDone);
         GameEvent.OnCountdown.AddListener(OnCountDown);
         GameEvent.OnKillEnemy.AddListener(UpdateObjectiveText);
+        GameEvent.OnTakeDamage.AddListener(ShowDamageScreen);
 
         pauseBtn.onClick.AddListener(PauseBtnHandle);
     }
@@ -41,10 +43,10 @@ public class InGameUI : MonoBehaviour
 
     private void OnLoadDone(LevelInfo levelInfo)
     {
-        StartCoroutine(HideAterTime(levelInfo, 1));
+        StartCoroutine(HideLoadingScreenAfterTime(levelInfo, 1));
     }
 
-    private IEnumerator HideAterTime(LevelInfo levelInfo, float time = 2.0f)
+    private IEnumerator HideLoadingScreenAfterTime(LevelInfo levelInfo, float time = 2.0f)
     {
         UpdateObjectiveText();
         yield return new WaitForSeconds(time);
@@ -70,5 +72,20 @@ public class InGameUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         pausePanel.SetActive(true);
+    }
+
+    private void ShowDamageScreen(EntityInfo entityInfo, Vector3 pos)
+    {
+        if(entityInfo.entityType == EntityType.Player)
+        {
+            damageScreen.enabled = true;
+            StartCoroutine(HideDamageScreenAfterTime(0.25f));
+        }
+    }
+
+    private IEnumerator HideDamageScreenAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        damageScreen.enabled = false;
     }
 }

@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SFXManager : MonoBehaviour
+public class SFXManager : Singleton<SFXManager>
 {
-    public List<SFXData> sfxList = new List<SFXData>();
-    private Dictionary<string, AudioClip> sfxDictionary = new Dictionary<string, AudioClip>();
+    public List<SFXData> sfxList = new();
+    private Dictionary<string, AudioClip> sfxDictionary = new();
 
     private AudioSource audioSource;
 
-    private void Awake()
+    protected override void Awake()
     {
-        audioSource = gameObject.AddComponent<AudioSource>();
-
+        base.Awake();
+        audioSource = GetComponent<AudioSource>();
         foreach (var sfx in sfxList)
         {
             sfxDictionary[sfx.key] = sfx.clip;
@@ -56,16 +56,30 @@ public class SFXManager : MonoBehaviour
         }
     }
 
-    public void PlaySFX(string key, Vector3 point, float volume = 1.0f)
+    public void PlaySFX(string key, Vector3 position, float volume = 1.0f)
     {
         if (sfxDictionary.TryGetValue(key, out AudioClip clip))
         {
-            AudioSource.PlayClipAtPoint(clip, point, volume);
+            audioSource.clip = clip;
+            audioSource.volume = volume;
+            audioSource.transform.position = position;
+            audioSource.Play();
         }
         else
         {
             Debug.LogWarning("SFX is not founded: " + key);
         }
+    }
+
+    public void PlaySFX_Addressable(string key, Vector3 position, float volume = 1.0f)
+    {
+        AddressableManager.Instance.CreateAsset<AudioClip>(key, result =>
+        {
+            audioSource.clip = result;
+            audioSource.volume = volume;
+            audioSource.transform.position = position;
+            audioSource.Play();
+        });
     }
 }
 

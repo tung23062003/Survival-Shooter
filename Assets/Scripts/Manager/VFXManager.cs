@@ -34,7 +34,7 @@ public class VFXManager : Singleton<VFXManager>
             switch (entityInfo.monsterType)
             {
                 case MonsterType.Zombie:
-                    PlayVFX_Addressable(AddressableKey.PLAYER_ATTACKBASE_VFX, damagePos, Quaternion.identity);
+                    PlayVFX_Addressable(AddressableKey.PLAYER_BULLET_COLLID_BASE_VFX, damagePos, Quaternion.identity);
                     break;
 
                 case MonsterType.MistFiend:
@@ -46,7 +46,7 @@ public class VFXManager : Singleton<VFXManager>
                     break;
 
                 default:
-                    PlayVFX_Addressable(AddressableKey.PLAYER_ATTACKBASE_VFX, damagePos, Quaternion.identity);
+                    PlayVFX_Addressable(AddressableKey.PLAYER_BULLET_COLLID_BASE_VFX, damagePos, Quaternion.identity);
                     Debug.Log("VFX Default");
                     break;
             }

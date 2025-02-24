@@ -39,6 +39,12 @@ public class WinLevelUI : MonoBehaviour
             //nextLevelBtn.interactable = false;
             nextLevelBtn.gameObject.SetActive(false);
         }
+        StartCoroutine(ShowWinPanelAfterTime(1.5f));
+    }
+
+    private IEnumerator ShowWinPanelAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
         winPanel.SetActive(true);
     }
 
