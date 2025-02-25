@@ -50,12 +50,12 @@ public class LoseLevelUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 #endif
-        Time.timeScale = 0;
         //Show Ads
         AdsManager.Instance.ShowRewardedAd(() =>
         {
             losePanel.SetActive(false);
             GameManager.Instance.RevivePlayer();
+            Time.timeScale = 0;
         });
     }
 
