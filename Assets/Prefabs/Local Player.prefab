@@ -205,12 +205,12 @@ MonoBehaviour:
   aimPoint: {fileID: 5631950525817340468}
   atkLayer:
     serializedVersion: 2
-    m_Bits: 247
+    m_Bits: 4087
   fireVfx: {fileID: 495613054970923222}
   groundCheckPoint: {fileID: 6052378000373112464}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 247
+    m_Bits: 4087
   groundCheckDistance: 0.05
   isGrounded: 0
   isJumping: 0

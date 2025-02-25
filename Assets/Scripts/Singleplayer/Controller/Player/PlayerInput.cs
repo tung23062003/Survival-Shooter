@@ -6,7 +6,10 @@ using UnityEngine.UI;
 
 public class PlayerInput : MonoBehaviour
 {
+#if UNITY_ANDROID
     [SerializeField] private FloatingJoystick floatingJoystick;
+    
+#endif
 
     Vector2 moveInputVector = Vector2.zero;
     Vector2 viewInputVector = Vector2.zero;
@@ -19,19 +22,22 @@ public class PlayerInput : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         playerMovement = GetComponent<PlayerMovement>();
         playerCamera = GetComponentInChildren<PlayerCamera>();
+
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
+#if UNITY_ANDROID
         floatingJoystick = FindObjectOfType<FloatingJoystick>();
+#endif
 #if UNITY_EDITOR
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 #endif
     }
 
-    // Update is called once per frame
     void Update()
     {
 #if UNITY_EDITOR
