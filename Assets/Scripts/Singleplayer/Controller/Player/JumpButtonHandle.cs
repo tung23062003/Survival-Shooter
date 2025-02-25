@@ -11,7 +11,7 @@ public class JumpButtonHandle : MonoBehaviour
     private void Awake()
     {
         GameEvent.OnPlayerSpawn.AddListener(OnPlayerSpawn);
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS
         jumpBtn.onClick.AddListener(() =>
         {
             playerController.Jump();

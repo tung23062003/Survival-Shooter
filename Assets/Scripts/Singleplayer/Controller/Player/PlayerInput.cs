@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerInput : MonoBehaviour
 {
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS
     [SerializeField] private FloatingJoystick floatingJoystick;
     
 #endif
@@ -29,7 +29,7 @@ public class PlayerInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS
         floatingJoystick = FindObjectOfType<FloatingJoystick>();
 #endif
 #if UNITY_EDITOR
