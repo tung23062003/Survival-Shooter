@@ -12,24 +12,29 @@ public class MenuUIHandler : MonoBehaviour
 
     [SerializeField] private Button playLocalBtn;
     [SerializeField] private Button playNetworkBtn;
+    [SerializeField] private Button tutorialBtn;
 
 
     [SerializeField] private GameObject levelPanel;
     [SerializeField] private Transform levelBtnParent;
 
+    [SerializeField] private GameObject tutorialPanel;
+
     private void Awake()
     {
         playNetworkBtn.onClick.AddListener(PlayNetworkHandle);
-
         playLocalBtn.onClick.AddListener(PlayLocalBtnHandle);
+        tutorialBtn.onClick.AddListener(TutorialBtnHandle);
+
         GameEvent.OnLoadDataDone.AddListener(OnLoadDataDone);
     }
 
     private void OnDestroy()
     {
         playNetworkBtn.onClick.RemoveAllListeners();
-
         playLocalBtn.onClick.RemoveAllListeners();
+        tutorialBtn.onClick.RemoveAllListeners();
+
         GameEvent.OnLoadDataDone.RemoveAllListeners();
     }
 
@@ -57,6 +62,11 @@ public class MenuUIHandler : MonoBehaviour
     private void PlayLocalBtnHandle()
     {
         levelPanel.SetActive(true);
+    }
+
+    private void TutorialBtnHandle()
+    {
+        tutorialPanel.SetActive(true);
     }
 
     private async void OnLoadDataDone(LevelDataSO levelData)
