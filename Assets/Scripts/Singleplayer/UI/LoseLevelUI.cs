@@ -47,11 +47,16 @@ public class LoseLevelUI : MonoBehaviour
     private void HandleContinueLevel()
     {
 #if UNITY_EDITOR
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 #endif
-        losePanel.SetActive(false);
-        //GameManager.Instance.SpawnLevel(isSpawnNextLevel: true, isRestartLevel: false);
+        Time.timeScale = 0;
+        //Show Ads
+        AdsManager.Instance.ShowRewardedAd(() =>
+        {
+            losePanel.SetActive(false);
+            GameManager.Instance.RevivePlayer();
+        });
     }
 
     private void RestartBtnHandle()

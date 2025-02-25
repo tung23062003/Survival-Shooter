@@ -119,6 +119,12 @@ public class GameManager : PersistantSingleton<GameManager>
         onComplete?.Invoke();
     }
 
+    public async void RevivePlayer(Action onComplete = null)
+    {
+        await SSpawner.Instance.SpawnPlayer(levelLoading);
+        onComplete?.Invoke();
+    }
+
     public bool IsLevelMax()
     {
         return levelLoading.level == levelData.levels.Count;

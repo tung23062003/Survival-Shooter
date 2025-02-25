@@ -19,7 +19,7 @@ public class MenuUIHandler : MonoBehaviour
 
     private void Awake()
     {
-        playNetworkBtn.onClick.AddListener(OnJointClicked);
+        playNetworkBtn.onClick.AddListener(PlayNetworkHandle);
 
         playLocalBtn.onClick.AddListener(PlayLocalBtnHandle);
         GameEvent.OnLoadDataDone.AddListener(OnLoadDataDone);
@@ -46,7 +46,7 @@ public class MenuUIHandler : MonoBehaviour
             inputField.text = PlayerPrefs.GetString("PlayerNickname");
     }
 
-    public void OnJointClicked()
+    public void PlayNetworkHandle()
     {
         PlayerPrefs.SetString("PlayerNickname", inputField.text);
         PlayerPrefs.Save();

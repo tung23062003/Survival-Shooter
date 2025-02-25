@@ -256,6 +256,12 @@ public class AdsManager : PersistantSingleton<AdsManager>
         {
             Debug.Log("Rewarded ad full screen content closed.");
             LoadRewardedAd();
+
+            Time.timeScale = 1;
+#if UNITY_EDITOR
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+#endif
         };
         ad.OnAdFullScreenContentFailed += (AdError error) =>
         {
