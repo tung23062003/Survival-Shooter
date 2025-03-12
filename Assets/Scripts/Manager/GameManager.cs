@@ -18,6 +18,9 @@ public class GameManager : PersistantSingleton<GameManager>
     {
         base.Awake();
 
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+
         if (!PlayerPrefs.HasKey("FirstTimePlay"))
         {
             PlayerPrefs.SetInt("FirstTimePlay", 1);
@@ -145,16 +148,15 @@ public class GameManager : PersistantSingleton<GameManager>
         {
             Debug.Log($"Win level {levelLoading.level}");
             GameEvent.OnWinLevel?.Invoke();
-            StartCoroutine(WaitForShowAds(1.75f));
-            //SaveLevel();
+            //StartCoroutine(WaitForShowAds(2.0f));
         }
     }
 
-    private IEnumerator WaitForShowAds(float time)
-    {
-        yield return new WaitForSeconds(time);
-        AdsManager.Instance.ShowInterstitialAd();
-    }
+    //private IEnumerator WaitForShowAds(float time)
+    //{
+    //    yield return new WaitForSeconds(time);
+    //    AdsManager.Instance.ShowInterstitialAd();
+    //}
 
     private void ResetKillEnemyQuantity()
     {

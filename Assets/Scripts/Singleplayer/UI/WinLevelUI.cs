@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class WinLevelUI : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class WinLevelUI : MonoBehaviour
     [SerializeField] private Button menuBtn;
 
     [SerializeField] private GameObject winPanel;
+    [SerializeField] private GameObject winContainer;
 
     private void Awake()
     {
@@ -45,7 +47,21 @@ public class WinLevelUI : MonoBehaviour
     private IEnumerator ShowWinPanelAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
-        winPanel.SetActive(true);
+        winPanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).OnComplete(() => {
+            winContainer.GetComponent<CanvasGroup>().alpha = 0;
+            winContainer.GetComponent<RectTransform>().transform.localPosition = new(0, -1000f, 0);
+            winContainer.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0, 82f), 1.0f, false).SetEase(Ease.OutElastic);
+            winContainer.GetComponent<CanvasGroup>().DOFade(1, 1.0f);
+
+            StartCoroutine(WaitForShowAds(1.25f));
+        });
+        //winPanel.SetActive(true);
+    }
+
+    private IEnumerator WaitForShowAds(float time)
+    {
+        yield return new WaitForSeconds(time);
+        AdsManager.Instance.ShowInterstitialAd();
     }
 
     private void HandleNextLevel()
@@ -54,7 +70,8 @@ public class WinLevelUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 #endif
-        winPanel.SetActive(false);
+        winPanel.GetComponent<CanvasGroup>().alpha = 0;
+        //winPanel.SetActive(false);
         GameManager.Instance.SpawnLevel(isSpawnNextLevel: true, isRestartLevel: false);
     }
 

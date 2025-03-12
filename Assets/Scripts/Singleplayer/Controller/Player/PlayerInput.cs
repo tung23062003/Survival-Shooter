@@ -58,7 +58,7 @@ public class PlayerInput : MonoBehaviour
                         Vector2 targetInput = new Vector2(touch.deltaPosition.x * scaleFactor,
                                                           touch.deltaPosition.y * scaleFactor * -1);
                 
-                        viewInputVector = Vector2.Lerp(viewInputVector, targetInput, Time.deltaTime * 10f);
+                        viewInputVector = Vector2.Lerp(viewInputVector, targetInput, Time.deltaTime * 20f);
                     }
                     else
                     {

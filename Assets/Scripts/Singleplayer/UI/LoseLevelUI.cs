@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class LoseLevelUI : MonoBehaviour
 {
     [SerializeField] private Button replayBtn;
@@ -41,7 +41,8 @@ public class LoseLevelUI : MonoBehaviour
     private IEnumerator ShowLosePanelAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
-        losePanel.SetActive(true);
+        losePanel.GetComponent<CanvasGroup>().DOFade(1.0f, 0.5f);
+        //losePanel.SetActive(true);
     }
 
     private void HandleContinueLevel()
@@ -53,7 +54,8 @@ public class LoseLevelUI : MonoBehaviour
         //Show Ads
         AdsManager.Instance.ShowRewardedAd(() =>
         {
-            losePanel.SetActive(false);
+            losePanel.GetComponent<CanvasGroup>().alpha = 0;
+            //losePanel.SetActive(false);
             GameManager.Instance.RevivePlayer();
             Time.timeScale = 0;
         });
@@ -66,7 +68,8 @@ public class LoseLevelUI : MonoBehaviour
         Cursor.visible = false;
 #endif
         Time.timeScale = 1;
-        losePanel.SetActive(false);
+        losePanel.GetComponent<CanvasGroup>().alpha = 0;
+        //losePanel.SetActive(false);
         GameManager.Instance.SpawnLevel(isSpawnNextLevel: false, isRestartLevel: true);
     }
 
