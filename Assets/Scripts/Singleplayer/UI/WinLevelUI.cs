@@ -51,6 +51,8 @@ public class WinLevelUI : MonoBehaviour
         yield return new WaitForSeconds(time);
         winPanel.SetActive(true);
         winPanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).OnComplete(() => {
+            SFXManager.Instance.PlaySFX("Slide_down", Vector3.zero, 1.0f, 0);
+
             winContainer.GetComponent<CanvasGroup>().alpha = 0;
             winContainer.GetComponent<RectTransform>().transform.localPosition = new(0, -1000f, 0);
             winContainer.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0, 82f), 1.0f, false).SetEase(Ease.OutElastic);
@@ -62,7 +64,9 @@ public class WinLevelUI : MonoBehaviour
             {
                 sequence.AppendInterval(0.25f);
                 star.localScale = Vector3.zero;
-                sequence.Append(star.DOScale(Vector3.one, 1.0f).SetEase(Ease.OutBack));
+
+                sequence.Append(star.DOScale(Vector3.one, 1.0f).SetEase(Ease.OutBack))
+                .Join(DOVirtual.DelayedCall(0f, () => SFXManager.Instance.PlaySFX("Star", Vector3.zero, 1.0f, 0)));
             }
 
             sequence.OnComplete(() => StartCoroutine(WaitForShowAds(1.25f)));

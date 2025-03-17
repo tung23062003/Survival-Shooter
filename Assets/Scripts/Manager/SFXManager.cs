@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SFXManager : Singleton<SFXManager>
+public class SFXManager : PersistantSingleton<SFXManager>
 {
     public List<SFXData> sfxList = new();
     private Dictionary<string, AudioClip> sfxDictionary = new();
@@ -37,7 +37,7 @@ public class SFXManager : Singleton<SFXManager>
             switch (entityInfo.monsterType)
             {
                 case MonsterType.Zombie:
-                    PlaySFX("ZombieDamaged", damagePos);
+                    //PlaySFX("ZombieDamaged", damagePos);
                     break;
 
                 case MonsterType.MistFiend:
@@ -49,20 +49,21 @@ public class SFXManager : Singleton<SFXManager>
                     break;
 
                 default:
-                    PlaySFX("ZombieDamaged", damagePos);
+                    //PlaySFX("ZombieDamaged", damagePos);
                     Debug.Log("SFX Default");
                     break;
             }
         }
     }
 
-    public void PlaySFX(string key, Vector3 position, float volume = 1.0f)
+    public void PlaySFX(string key, Vector3 position, float volume = 1.0f, float spatial_blend = 1.0f)
     {
         if (sfxDictionary.TryGetValue(key, out AudioClip clip))
         {
             audioSource.clip = clip;
             audioSource.volume = volume;
             audioSource.transform.position = position;
+            audioSource.spatialBlend = spatial_blend;
             audioSource.Play();
         }
         else
