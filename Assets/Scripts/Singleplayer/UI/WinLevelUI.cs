@@ -13,6 +13,8 @@ public class WinLevelUI : MonoBehaviour
     [SerializeField] private GameObject winPanel;
     [SerializeField] private GameObject winContainer;
 
+    [SerializeField] private Transform[] stars;
+
     private void Awake()
     {
         nextLevelBtn.onClick.AddListener(HandleNextLevel);
@@ -47,15 +49,25 @@ public class WinLevelUI : MonoBehaviour
     private IEnumerator ShowWinPanelAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
+        winPanel.SetActive(true);
         winPanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).OnComplete(() => {
             winContainer.GetComponent<CanvasGroup>().alpha = 0;
             winContainer.GetComponent<RectTransform>().transform.localPosition = new(0, -1000f, 0);
             winContainer.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0, 82f), 1.0f, false).SetEase(Ease.OutElastic);
             winContainer.GetComponent<CanvasGroup>().DOFade(1, 1.0f);
 
-            StartCoroutine(WaitForShowAds(1.25f));
+            Sequence sequence = DOTween.Sequence();
+
+            foreach (Transform star in stars)
+            {
+                sequence.AppendInterval(0.25f);
+                star.localScale = Vector3.zero;
+                sequence.Append(star.DOScale(Vector3.one, 1.0f).SetEase(Ease.OutBack));
+            }
+
+            sequence.OnComplete(() => StartCoroutine(WaitForShowAds(1.25f)));
+            
         });
-        //winPanel.SetActive(true);
     }
 
     private IEnumerator WaitForShowAds(float time)
@@ -71,7 +83,8 @@ public class WinLevelUI : MonoBehaviour
         Cursor.visible = false;
 #endif
         winPanel.GetComponent<CanvasGroup>().alpha = 0;
-        //winPanel.SetActive(false);
+        winContainer.GetComponent<CanvasGroup>().alpha = 0;
+        winPanel.SetActive(false);
         GameManager.Instance.SpawnLevel(isSpawnNextLevel: true, isRestartLevel: false);
     }
 
@@ -82,6 +95,8 @@ public class WinLevelUI : MonoBehaviour
         Cursor.visible = false;
 #endif
         Time.timeScale = 1;
+        winPanel.GetComponent<CanvasGroup>().alpha = 0;
+        winContainer.GetComponent<CanvasGroup>().alpha = 0;
         winPanel.SetActive(false);
         GameManager.Instance.SpawnLevel(isSpawnNextLevel: false, isRestartLevel: true);
     }

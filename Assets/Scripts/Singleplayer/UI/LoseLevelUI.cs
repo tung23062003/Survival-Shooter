@@ -10,6 +10,7 @@ public class LoseLevelUI : MonoBehaviour
     [SerializeField] private Button menuBtn;
 
     [SerializeField] private GameObject losePanel;
+    [SerializeField] private GameObject loseContainer;
 
     private void Awake()
     {
@@ -41,8 +42,25 @@ public class LoseLevelUI : MonoBehaviour
     private IEnumerator ShowLosePanelAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
-        losePanel.GetComponent<CanvasGroup>().DOFade(1.0f, 0.5f);
-        //losePanel.SetActive(true);
+        losePanel.SetActive(true);
+        losePanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).OnComplete(() => {
+            loseContainer.GetComponent<CanvasGroup>().alpha = 0;
+            loseContainer.GetComponent<RectTransform>().transform.localPosition = new(0, -1000f, 0);
+            loseContainer.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0, 82f), 1.0f, false).SetEase(Ease.OutElastic);
+            loseContainer.GetComponent<CanvasGroup>().DOFade(1, 1.0f);
+
+            //Sequence sequence = DOTween.Sequence();
+
+            //foreach (Transform star in stars)
+            //{
+            //    sequence.AppendInterval(0.25f);
+            //    star.localScale = Vector3.zero;
+            //    sequence.Append(star.DOScale(Vector3.one, 1.0f).SetEase(Ease.OutBack));
+            //}
+
+            //sequence.OnComplete(() => StartCoroutine(WaitForShowAds(1.25f)));
+
+        });
     }
 
     private void HandleContinueLevel()
@@ -55,7 +73,8 @@ public class LoseLevelUI : MonoBehaviour
         AdsManager.Instance.ShowRewardedAd(() =>
         {
             losePanel.GetComponent<CanvasGroup>().alpha = 0;
-            //losePanel.SetActive(false);
+            loseContainer.GetComponent<CanvasGroup>().alpha = 0;
+            losePanel.SetActive(false);
             GameManager.Instance.RevivePlayer();
             Time.timeScale = 0;
         });
@@ -69,7 +88,8 @@ public class LoseLevelUI : MonoBehaviour
 #endif
         Time.timeScale = 1;
         losePanel.GetComponent<CanvasGroup>().alpha = 0;
-        //losePanel.SetActive(false);
+        loseContainer.GetComponent<CanvasGroup>().alpha = 0;
+        losePanel.SetActive(false);
         GameManager.Instance.SpawnLevel(isSpawnNextLevel: false, isRestartLevel: true);
     }
 
