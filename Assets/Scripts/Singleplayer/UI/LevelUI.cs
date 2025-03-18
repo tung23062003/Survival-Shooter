@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class LevelUI : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class LevelUI : MonoBehaviour
 
     private void CloseBtnHandle()
     {
+        //transform.DOScale(0, 0.5f);
         gameObject.SetActive(false);
     }
 }

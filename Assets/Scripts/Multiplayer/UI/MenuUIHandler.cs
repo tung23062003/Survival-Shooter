@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using DG.Tweening;
 
 public class MenuUIHandler : MonoBehaviour
 {
@@ -16,9 +17,15 @@ public class MenuUIHandler : MonoBehaviour
 
 
     [SerializeField] private GameObject levelPanel;
+    [SerializeField] private GameObject levelContainer;
     [SerializeField] private Transform levelBtnParent;
 
     [SerializeField] private GameObject tutorialPanel;
+    [SerializeField] private GameObject tutorialContainer;
+
+    [SerializeField] private Transform[] buttons;
+
+    private List<Transform> levelPrefabsTrans = new();
 
     private void Awake()
     {
@@ -27,6 +34,8 @@ public class MenuUIHandler : MonoBehaviour
         tutorialBtn.onClick.AddListener(TutorialBtnHandle);
 
         GameEvent.OnLoadDataDone.AddListener(OnLoadDataDone);
+
+        
     }
 
     private void OnDestroy()
@@ -41,6 +50,13 @@ public class MenuUIHandler : MonoBehaviour
     private void OnEnable()
     {
         AdsManager.Instance.LoadBannerAd();
+
+        Sequence sequence = DOTween.Sequence();
+        foreach (var button in buttons)
+        {
+            button.localScale = Vector3.zero;
+            sequence.Append(button.DOScale(1, 0.25f));
+        }
     }
 
     // Start is called before the first frame update
@@ -62,11 +78,25 @@ public class MenuUIHandler : MonoBehaviour
     private void PlayLocalBtnHandle()
     {
         levelPanel.SetActive(true);
+        levelContainer.transform.localScale = Vector2.zero;
+
+        Sequence sequence = DOTween.Sequence();
+        foreach (var levelTrans in levelPrefabsTrans)
+        {
+            levelTrans.localScale = Vector2.zero;
+        }
+        sequence.Append(levelContainer.transform.DOScale(1, 0.5f));
+        foreach (var levelTrans in levelPrefabsTrans)
+        {
+            sequence.Append(levelTrans.DOScale(1, 0.2f));
+        }
     }
 
     private void TutorialBtnHandle()
     {
         tutorialPanel.SetActive(true);
+        tutorialContainer.transform.localScale = Vector2.zero;
+        tutorialContainer.transform.DOScale(1, 0.5f);
     }
 
     private async void OnLoadDataDone(LevelDataSO levelData)
@@ -85,6 +115,9 @@ public class MenuUIHandler : MonoBehaviour
             int level = levelData.levels[index].level;
             prefab.GetComponentInChildren<TextMeshProUGUI>().text = level.ToString();
             prefab.GetComponent<Button>().onClick.AddListener(() => LevelButtonHandle(levelData.levels[index]));
+
+            if(prefab != null)
+                levelPrefabsTrans.Add(prefab.transform);
         });
         await Task.Yield();
     }

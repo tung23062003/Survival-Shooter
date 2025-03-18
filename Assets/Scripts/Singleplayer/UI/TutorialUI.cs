@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class TutorialUI : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class TutorialUI : MonoBehaviour
 
     private void CloseBtnHandle()
     {
+        //transform.DOScale(0, 0.5f);
         gameObject.SetActive(false);
     }
 }

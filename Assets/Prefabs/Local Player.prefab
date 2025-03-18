@@ -199,7 +199,7 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 200
   viewDownRotaionSpeed: 150
-  damage: 5
+  damage: 20
   atkCoundown: 0.5
   hitDistance: 100
   aimPoint: {fileID: 5631950525817340468}
