@@ -48,6 +48,7 @@ public class WinLevelUI : MonoBehaviour
 
     private IEnumerator ShowWinPanelAfterTime(float time)
     {
+        yield return new WaitForSeconds(0.5f);
         SFXManager.Instance.PlaySFX("Win", Vector3.zero, 1.0f, 0);
         yield return new WaitForSeconds(time);
         winPanel.SetActive(true);

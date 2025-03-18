@@ -41,6 +41,7 @@ public class LoseLevelUI : MonoBehaviour
 
     private IEnumerator ShowLosePanelAfterTime(float time)
     {
+        yield return new WaitForSeconds(0.5f);
         SFXManager.Instance.PlaySFX("Lose", Vector3.zero, 1.0f, 0);
         yield return new WaitForSeconds(time);
         losePanel.SetActive(true);

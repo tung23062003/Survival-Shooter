@@ -12,7 +12,6 @@ public class EnemyTriggerBase : MonoBehaviour
     }
     public void ResetAttack()
     {
-        Debug.Log("Attack Done");
         enemyBase.ResetAttack();
     }
 
