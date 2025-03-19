@@ -49,7 +49,7 @@ public class MenuUIHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        AdsManager.Instance.LoadBannerAd();
+        //AdsManager.Instance.LoadBannerAd();
 
         Sequence sequence = DOTween.Sequence();
         foreach (var button in buttons)
